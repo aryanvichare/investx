@@ -278,7 +278,7 @@ const Dashboard = () => {
                 Featured Articles
               </h1>
               <div className="mt-8 grid grid-cols-3 gap-8">
-                {articles.slice(3, 9).map((article, idx) => (
+                {articles.slice(5, 11).map((article, idx) => (
                   <NewsCard key={idx} article={article} />
                 ))}
               </div>
