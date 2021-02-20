@@ -1,10 +1,11 @@
 import { useAuth } from '@/lib/auth';
+import { useStock } from '@/lib/stock';
 import Head from 'next/head';
 
 export default function Home() {
   const auth = useAuth();
+  const stock = useStock();
   const { user, email } = auth;
-
   return (
     <div>
       <Head>
