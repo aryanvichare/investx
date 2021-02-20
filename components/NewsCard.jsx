@@ -1,12 +1,16 @@
 import React from 'react';
+import { format, parseISO } from 'date-fns';
 
 const NewsCard = ({ article }) => {
   return (
     <div className="w-full relative rounded shadow bg-white dark:bg-gray-800">
-      <img src={article.urlToImage} className="w-full" alt="protest" />
+      <img src={article.urlToImage} className="w-full" alt={article.title} />
       <div className="py-4 px-6">
         <p className="sm:text-lg text-sm text-gray-500">
-          {article.publishedAt}
+          {format(
+            parseISO(new Date(article.publishedAt).toISOString()),
+            'PPPP'
+          )}
         </p>
         <p className="am:text-2xl text-lg font-bold pt-4 text-gray-800">
           {article.title}
