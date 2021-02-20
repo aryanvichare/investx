@@ -277,7 +277,7 @@ const Dashboard = () => {
               <h1 className="text-blue-600 text-3xl font-semibold">
                 Featured Articles
               </h1>
-              <div className="mt-8 grid grid-cols-3 gap-8">
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {articles.slice(5, 11).map((article, idx) => (
                   <NewsCard key={idx} article={article} />
                 ))}
