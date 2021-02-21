@@ -12,7 +12,7 @@ const Score = ({ scoreCount, scoreName }) => {
     <div
       className={`shadow-sm rounded-md ${stockBg} p-8 flex flex-col justify-center items-center`}
     >
-      <h3 className="text-6xl text-white mb-2">{scoreCount}</h3>
+      <h3 className="text-6xl text-white mb-2 font-bold">{scoreCount}</h3>
       <p className="text-white text-center text-md">
         {scoreName.split(' ')[0]} <br /> {scoreName.split(' ')[1]}
       </p>
