@@ -57,9 +57,9 @@ const STUB_CHART = [
 const scoreData = [
   { scoreCount: 97, scoreName: 'Environmental Impact' },
   { scoreCount: 93, scoreName: 'Environmental Impact' },
-  { scoreCount: 91, scoreName: 'Environmental Impact' },
+  { scoreCount: 50, scoreName: 'Environmental Impact' },
   { scoreCount: 88, scoreName: 'Environmental Impact' },
-  { scoreCount: 99, scoreName: 'Environmental Impact' },
+  { scoreCount: 60, scoreName: 'Environmental Impact' },
   { scoreCount: 93, scoreName: 'Environmental Impact' },
   { scoreCount: 96, scoreName: 'Environmental Impact' },
   { scoreCount: 92, scoreName: 'Environmental Impact' }
@@ -306,7 +306,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="col-span-12 2xl:col-span-4">
-                  <h2 class="text-blue-500 font-bold text-3xl 2xl:ml-12 mb-4">
+                  <h2 class="text-blue-600 font-semibold text-3xl 2xl:ml-12 mb-4">
                     Top 5 companies based on your preference
                   </h2>
                   <div className="2xl:ml-12 h-120 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
@@ -350,9 +350,11 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="w-full mt-16">
-                <h1 className="text-blue-600 text-3xl font-semibold">
-                  Score Metrics
-                </h1>
+                <div className="flex flex-row justify-between">
+                  <h1 className="text-blue-600 text-3xl font-semibold">
+                    Score Metrics
+                  </h1>
+                </div>
                 <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-16">
                   {scoreData.map((score, idx) => (
                     <Score

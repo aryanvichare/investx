@@ -17,12 +17,12 @@ const StockChart = ({ data, yRange }) => {
     >
       <defs>
         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+          <stop offset="5%" stopColor="#226AE5" stopOpacity={0.8} />
+          <stop offset="95%" stopColor="#226AE5" stopOpacity={0} />
         </linearGradient>
         <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+          <stop offset="5%" stopColor="#34CD9A" stopOpacity={0.8} />
+          <stop offset="95%" stopColor="#34CD9A" stopOpacity={0} />
         </linearGradient>
       </defs>
       <XAxis dataKey="date" />
@@ -32,14 +32,14 @@ const StockChart = ({ data, yRange }) => {
       <Area
         type="monotone"
         dataKey="low"
-        stroke="#8884d8"
+        stroke="#226AE5"
         fillOpacity={1}
         fill="url(#colorUv)"
       />
       <Area
         type="monotone"
         dataKey="high"
-        stroke="#82ca9d"
+        stroke="#34CD9A"
         fillOpacity={1}
         fill="url(#colorPv)"
       />
