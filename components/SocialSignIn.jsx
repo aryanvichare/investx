@@ -46,12 +46,14 @@ const SocialSignIn = ({ setOpen }) => {
         <div class="mt-4 flex flex-col space-y-4 justify-center">
           <button
             onClick={() => auth.signInWithGoogle()}
-            class="bg-blue-500 w-full flex flex-row justify-center items-center rounded shadow-sm transition duration-200 ease-in-out transform hover:-translate-y-1"
+            class="bg-white w-full flex flex-row justify-center items-center rounded shadow-sm transition duration-200 ease-in-out transform hover:-translate-y-1"
           >
             <div className="bg-white inline-block p-2 rounded m-1">
               <FcGoogle size={32} />
             </div>
-            <span class="mx-auto pr-8 text-lg text-white">Google</span>
+            <span class="mx-auto pr-8 text-lg text-blue-600 font-semibold">
+              Google
+            </span>
           </button>
           <button
             onClick={() => auth.signInWithGithub()}
@@ -60,7 +62,9 @@ const SocialSignIn = ({ setOpen }) => {
             <div className="bg-transparent inline-block p-2 rounded m-1">
               <FaGithub fill="white" size={32} />
             </div>
-            <span class="mx-auto pr-8 text-lg text-white">GitHub</span>
+            <span class="mx-auto pr-8 text-lg text-white font-semibold">
+              GitHub
+            </span>
           </button>
         </div>
       </div>
