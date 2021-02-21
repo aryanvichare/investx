@@ -15,6 +15,7 @@ import axios from 'axios';
 import NewsCard from '@/components/NewsCard';
 import StockCard from '@/components/StockCard';
 import { useAuth } from '@/lib/auth';
+import { fromUnixTime } from 'date-fns';
 
 const Dashboard = () => {
   const auth = useAuth();
@@ -25,9 +26,10 @@ const Dashboard = () => {
   });
   const [search, setSearch] = useState('');
   const [articles, setArticles] = useState([]);
+  const [selectedSymbol, setSelectedSymbol] = useState('GOOG');
   const stockSearcherRef = useRef();
 
-  const data = [
+  const [chartData, setChartData] = useState([
     {
       name: 'Page A',
       uv: 4000,
@@ -70,7 +72,7 @@ const Dashboard = () => {
       pv: 4300,
       amt: 2100
     }
-  ];
+  ]);
 
   const scoreData = [
     { scoreCount: 97, scoreName: 'Environmental Impact' },
@@ -148,6 +150,24 @@ const Dashboard = () => {
 
     fetchNews();
   }, [selectedStock]);
+
+  useEffect(()=> {
+    if (!selectedSymbol) {
+      return;
+    }
+
+    (async () => {
+      const { data } = await axios.get(`/api/chart/${selectedSymbol}`);
+      console.log(data);
+      setChartData(data[selectedSymbol].map(({startEpochTime, openPrice, highPrice, lowPrice, closePrice}) => ({
+        name: fromUnixTime(startEpochTime),
+        uv: lowPrice,
+        pv: highPrice,
+        amt: closePrice
+      })));
+    })();
+
+  }, []);
 
   const filterList = (e) => {
     setSearch(e.target.value);
@@ -294,7 +314,7 @@ const Dashboard = () => {
                   <AreaChart
                     width={850}
                     height={250}
-                    data={data}
+                    data={chartData}
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                   >
                     <defs>
@@ -346,8 +366,8 @@ const Dashboard = () => {
               </div>
               <div className="col-span-12 2xl:col-span-4">
                 <div className="2xl:ml-12 h-96 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
-                  <div class="relative px-8 my-4">
-                    <div class="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
+                  <div className="relative px-8 my-4">
+                    <div className="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
                       <svg
                         className="w-4 h-4"
                         xmlns="http://www.w3.org/2000/svg"
@@ -368,7 +388,7 @@ const Dashboard = () => {
                       ref={stockSearcherRef}
                       id="stock_searcher"
                       value={search}
-                      class="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
+                      className="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
                       placeholder="Search for stocks..."
                     />
                   </div>
