@@ -95,7 +95,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchNews = async () => {
       const response = await axios.get('/api/news', {
-        params: { query: `${lookup[selectedStock]}-Social` }
+        params: { query: `${lookup[selectedStock]}` }
       });
       setArticles(response.data);
     };
