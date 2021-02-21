@@ -1,13 +1,16 @@
 import React from 'react';
 
 const StockCard = ({ onSelectCard, stock, selectedStock }) => {
+  if (!stock || !selectedStock) {
+    return null;
+  }
   return (
     <div
       onClick={onSelectCard}
       data-name={stock.name}
       data-abbr={stock.abbr}
-      className={`w-full flex flex-row justify-between items-center border-gray-100 border-t-2 border-b-2 p-4 ${
-        selectedStock.abbr === stock.abbr && 'bg-blue-200'
+      className={`w-full flex flex-row justify-between items-center border-gray-100 border-t-2 border-b-2 p-4 cursor-pointer ${
+        selectedStock === stock.abbr && 'bg-blue-200'
       }`}
     >
       <div className="flex flex-row items-center space-x-4">
@@ -17,7 +20,7 @@ const StockCard = ({ onSelectCard, stock, selectedStock }) => {
           </span>
         </div>
         <div className="flex flex-col justify-start">
-          <h3 class="text-lg text-gray-700 font-semibold leading-0">
+          <h3 className="text-lg text-gray-700 font-semibold leading-0">
             {stock.abbr}
           </h3>
           <p className="text-xs text-gray-400 -mt-1">{stock.name}</p>
