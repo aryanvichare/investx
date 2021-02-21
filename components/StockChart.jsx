@@ -25,20 +25,20 @@ const StockChart = ({ data, yRange }) => {
           <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
         </linearGradient>
       </defs>
-      <XAxis dataKey="name" />
+      <XAxis dataKey="date" />
       <YAxis type="number" domain={yRange} />
       <CartesianGrid strokeDasharray="3 3" />
       <Tooltip />
       <Area
         type="monotone"
-        dataKey="uv"
+        dataKey="low"
         stroke="#8884d8"
         fillOpacity={1}
         fill="url(#colorUv)"
       />
       <Area
         type="monotone"
-        dataKey="pv"
+        dataKey="high"
         stroke="#82ca9d"
         fillOpacity={1}
         fill="url(#colorPv)"

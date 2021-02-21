@@ -67,14 +67,17 @@ const scoreData = [
 
 const lookup = {};
 
-const stockDataSeeded = sp500.map(({ symbol, name }) => {
+const stockDataSeeded = sp500.map(({ symbol, name, price, change }) => {
   lookup[symbol] = name;
   return {
     score: 97,
     abbr: symbol,
     name,
-    price: '$5.59',
-    df: '+0.49'
+    price: `$${price}`,
+    df:
+      change[0] === '-' || Math.round(parseFloat(change) * 100) === 0
+        ? change
+        : `+${change}`
   };
 });
 
@@ -108,20 +111,24 @@ const Dashboard = () => {
       setChartData(
         data[selectedStock].map(
           ({ startEpochTime, openPrice, highPrice, lowPrice, closePrice }) => {
-            min = Math.min(min, lowPrice);
-            max = Math.max(max, highPrice);
+            const low = Math.round(lowPrice * 100) / 100;
+            const high = Math.round(highPrice * 100) / 100;
+
+            min = Math.min(min, low);
+            max = Math.max(max, high);
             return {
-              name: formatISO9075(fromUnixTime(startEpochTime), {
+              date: formatISO9075(fromUnixTime(startEpochTime), {
                 representation: 'date'
               }),
-              uv: lowPrice,
-              pv: highPrice,
-              amt: closePrice
+              low,
+              high,
+              close: closePrice,
+              open: openPrice
             };
           }
         )
       );
-      setYRange([Math.round(min * 100) / 100, Math.round(max * 100) / 100]);
+      setYRange([min, max]);
     })();
   }, [selectedStock]);
 
