@@ -58,7 +58,7 @@ const Footer = () => {
                   placeholder="johndoe@gmail.com"
                 />
                 <svg
-                  class="w-6 h-6 text-gray-400 absolute top-1 left-64 sm:top-1 sm:right-2 transform rotate-45 cursor-pointer"
+                  className="w-6 h-6 text-gray-400 absolute top-1 left-64 sm:top-1 sm:right-2 transform rotate-45 cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -78,11 +78,11 @@ const Footer = () => {
         <div className="max-w-screen-xl mx-auto sm:px-8 pt-8 pb-16 xl:px-0">
           <div className="flex flex-col sm:flex-row justify-between">
             <img
-              class="w-24 mb-4 sm:mb-0 sm:h-5"
+              className="w-24 mb-4 sm:mb-0 sm:h-5"
               src="/images/cards.png"
               alt="cards"
             />
-            <div class="flex flex-row space-x-8">
+            <div className="flex flex-row space-x-8">
               <h5 className="text-xs text-white">Terms and Conditions</h5>
               <h5 className="text-xs text-white">Privacy</h5>
               <h5 className="text-xs text-gray-400">© 2021 InvestX</h5>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/lib/auth';
 import Navbar from '@/components/home/Navbar';
-import SocialSignIn from '../SocialSignIn';
+import SocialSignIn from './SocialSignIn';
 
 const Header = () => {
   const { user } = useAuth();
