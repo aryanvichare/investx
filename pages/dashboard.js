@@ -306,7 +306,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="col-span-12 2xl:col-span-4">
-                  <h2 class="text-blue-600 font-semibold text-3xl 2xl:ml-12 mb-4">
+                  <h2 class="text-blue-600 text-center font-semibold text-3xl 2xl:ml-12 mb-4">
                     Top 5 companies based on your preference
                   </h2>
                   <div className="2xl:ml-12 h-120 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
@@ -365,7 +365,7 @@ const Dashboard = () => {
                     <div className="flex flex-row items-center space-x-1">
                       <div className="w-4 h-4 bg-yellow-500 rounded-full" />
                       <div>
-                        <span className="font-bold">{`51 - 70`}</span>
+                        <span className="font-bold">{`51 - 70 `}</span>
                         <span className="text-xs">(medium impact)</span>
                       </div>
                     </div>

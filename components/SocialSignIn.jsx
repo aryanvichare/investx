@@ -16,7 +16,7 @@ const SocialSignIn = ({ setOpen }) => {
       style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
       className="fixed inset-0 z-50 overflow-auto h-screen w-full flex flex-row items-center justify-center md:px-0 px-12"
     >
-      <div className="z-20 bg-white shadow-lg rounded-sm relative p-4 w-full max-w-xs m-auto flex-col flex border-green-500 border-t-4 pb-8">
+      <div className="z-20 bg-blue-600 shadow-lg rounded-sm relative p-4 w-full max-w-xs m-auto flex-col flex border-green-500 border-t-4 pb-8">
         <svg
           className="w-6 h-6 absolute top-4 right-4 text-gray-300 cursor-pointer"
           onClick={() => setOpen(false)}
@@ -33,16 +33,13 @@ const SocialSignIn = ({ setOpen }) => {
           />
         </svg>
         <div class="flex flex-col justify-center items-center w-full p-4">
-          <h1 class="text-3xl text-gray-800 text-center font-medium mb-4">
-            Sign in to
-          </h1>
           <div className="flex flex-row items-center space-x-2 pr-1">
             <Image src="/images/logo.png" alt="me" width="50" height="50" />
-            <h1 className="lg:ml-2 text-gray-900 font-bold text-3xl">
+            <h1 className="lg:ml-2 text-white font-bold text-3xl">
               Invest<span className="text-green-400">X</span>
             </h1>
           </div>
-          <p class="text-center text-md mt-4 text-gray-600">
+          <p class="text-center text-md mt-4 text-white">
             Log in to get access to InvestX's custom dashboard
           </p>
         </div>
