@@ -1,5 +1,4 @@
-[{"symbol": "Symbol", "name": "Name", "sector": "Sector", "subIndustry": "SubIndustry", "headquarters": "Headquarters", "firstAdded": "FirstAdded", "founded": "Founded"},
-{"symbol": "MMM", "name": "3M Company", "sector": "Industrials", "subIndustry": "Industrial Conglomerates", "headquarters": "St. Paul, Minnesota", "firstAdded": "1976-08-09", "founded": "1902"},
+[{"symbol": "MMM", "name": "3M Company", "sector": "Industrials", "subIndustry": "Industrial Conglomerates", "headquarters": "St. Paul, Minnesota", "firstAdded": "1976-08-09", "founded": "1902"},
 {"symbol": "ABT", "name": "Abbott Laboratories", "sector": "Health Care", "subIndustry": "Health Care Equipment", "headquarters": "North Chicago, Illinois", "firstAdded": "1964-03-31", "founded": "1888"},
 {"symbol": "ABBV", "name": "AbbVie Inc.", "sector": "Health Care", "subIndustry": "Pharmaceuticals", "headquarters": "North Chicago, Illinois", "firstAdded": "2012-12-31", "founded": "2013 (1888)"},
 {"symbol": "ABMD", "name": "Abiomed", "sector": "Health Care", "subIndustry": "Health Care Equipment", "headquarters": "Danvers, Massachusetts", "firstAdded": "2018-05-31", "founded": "1981"},
