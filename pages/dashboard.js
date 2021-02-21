@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import {
   AreaChart,
@@ -13,9 +13,13 @@ import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import axios from 'axios';
 import NewsCard from '@/components/NewsCard';
+import StockCard from '@/components/StockCard';
 
 const Dashboard = () => {
+  const [search, setSearch] = useState('');
   const [articles, setArticles] = useState([]);
+  const stockSearcherRef = useRef();
+
   const data = [
     {
       name: 'Page A',
@@ -72,10 +76,64 @@ const Dashboard = () => {
     { scoreCount: 92, scoreName: 'Environmental Impact' }
   ];
 
+  const stockDataSeeded = [
+    {
+      score: 97,
+      abbr: 'AMC',
+      name: 'AMC Entertainment',
+      price: '$5.59',
+      df: '+0.49'
+    },
+    {
+      score: 97,
+      abbr: 'SNDL',
+      name: 'Sundial Growers Inc.',
+      price: '$5.59',
+      df: '+0.49'
+    },
+    {
+      score: 97,
+      abbr: 'GOOG',
+      name: 'Google Inc.',
+      price: '$5.59',
+      df: '+0.49'
+    },
+    {
+      score: 97,
+      abbr: 'AMAZ',
+      name: 'Amazon.com',
+      price: '$5.59',
+      df: '+0.49'
+    },
+    {
+      score: 97,
+      abbr: 'CSCO',
+      name: 'Cisco Systems',
+      price: '$5.59',
+      df: '+0.49'
+    },
+    {
+      score: 97,
+      abbr: 'FB',
+      name: 'Facebook Inc.',
+      price: '$5.59',
+      df: '+0.49'
+    },
+    {
+      score: 97,
+      abbr: 'TWTR',
+      name: 'Twitter, Inc.',
+      price: '$5.59',
+      df: '+0.49'
+    }
+  ];
+
+  const [stockData, setStockData] = useState(stockDataSeeded);
+
   useEffect(() => {
     const fetchNews = async () => {
       const response = await axios.get('/api/news', {
-        params: { query: 'Google Inc.' }
+        params: { query: 'Google' }
       });
       setArticles(response.data);
       console.log(response.data);
@@ -83,6 +141,22 @@ const Dashboard = () => {
 
     fetchNews();
   }, []);
+
+  const filterList = (e) => {
+    setSearch(e.target.value);
+    const query = e.target.value.toLowerCase();
+
+    const filteredData = stockDataSeeded.filter(
+      (item) =>
+        item.name.toLowerCase().includes(query) ||
+        item.abbr.toLowerCase().includes(query)
+    );
+    setStockData(filteredData);
+  };
+
+  const onSelectCard = (e) => {
+    console.log(e);
+  };
 
   return (
     <div className="bg-gray-50 w-full">
@@ -191,7 +265,7 @@ const Dashboard = () => {
         <div className="flex-1 overflow-x-scroll py-12">
           <div className="max-w-screen-xl mx-auto px-4 pt-24">
             <div className="w-full grid grid-cols-12 gap-6">
-              <div className="col-span-12 lg:col-span-7">
+              <div className="col-span-12 lg:col-span-8">
                 <h1 className="text-blue-600 text-3xl font-semibold">
                   Portfolio Summary
                 </h1>
@@ -201,7 +275,7 @@ const Dashboard = () => {
                 </div>
                 <div className="mt-8">
                   <AreaChart
-                    width={730}
+                    width={850}
                     height={250}
                     data={data}
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
@@ -253,13 +327,43 @@ const Dashboard = () => {
                   </AreaChart>
                 </div>
               </div>
-              <div className="col-span-12 lg:col-span-5">
-                <h1 className="text-blue-600 text-3xl font-semibold">
-                  Search For Stocks
-                </h1>
+              <div className="col-span-12 2xl:col-span-4">
+                <div className="2xl:ml-12 h-96 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
+                  <div class="relative px-8 my-4">
+                    <div class="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
+                      <svg
+                        className="w-4 h-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      onChange={filterList}
+                      ref={stockSearcherRef}
+                      id="stock_searcher"
+                      value={search}
+                      class="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
+                      placeholder="Search for stocks..."
+                    />
+                  </div>
+                  <div className="mt-8">
+                    {stockData.map((stock) => (
+                      <StockCard onSelectCard={onSelectCard} stock={stock} />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="w-full max-w-screen-lg mt-16">
+            <div className="w-full mt-16">
               <h1 className="text-blue-600 text-3xl font-semibold">
                 Score Metrics
               </h1>
@@ -273,7 +377,7 @@ const Dashboard = () => {
                 ))}
               </div>
             </div>
-            <div className="w-full max-w-screen-lg mt-16">
+            <div className="w-full  mt-16">
               <h1 className="text-blue-600 text-3xl font-semibold">
                 Featured Articles
               </h1>
