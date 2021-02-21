@@ -169,6 +169,24 @@ const Dashboard = () => {
 
   }, []);
 
+  useEffect(()=> {
+    if (!selectedSymbol) {
+      return;
+    }
+
+    (async () => {
+      const { data } = await axios.get(`/api/chart/${selectedSymbol}`);
+      console.log(data);
+      setChartData(data[selectedSymbol].map(({startEpochTime, openPrice, highPrice, lowPrice, closePrice}) => ({
+        name: fromUnixTime(startEpochTime),
+        uv: lowPrice,
+        pv: highPrice,
+        amt: closePrice
+      })));
+    })();
+
+  }, []);
+
   const filterList = (e) => {
     setSearch(e.target.value);
     const query = e.target.value.toLowerCase();
