@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const NEWS_BASE_URL = ' https://newsapi.org/v2/everything';
-const NEWS_API_KEY = '<api_key>';
+const NEWS_API_KEY = process.env.NEWSAPI_API_KEY;
 
 export default async (req, res) => {
   try {
