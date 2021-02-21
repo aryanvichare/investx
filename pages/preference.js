@@ -55,12 +55,13 @@ const Dashboard = () => {
   ];
 
   const handleSelect = (e) => {
-    while (!e.target.getAttribute('data-name') && e.parentElement) {
-      e = e.parentElement;
+    let element = e.target;
+    while (!element.getAttribute('data-name') && element.parentElement) {
+      element = element.parentElement;
     }
 
     const oldImpact = selectedImpact;
-    const newImpact = e.target.getAttribute('data-name') ?? selectedImpact;
+    const newImpact = element.getAttribute('data-name') ?? selectedImpact;
     setSelectedImpact(newImpact);
 
     if (oldImpact !== newImpact) {
@@ -100,6 +101,7 @@ const Dashboard = () => {
                       selectedImpact === el?.name.split(' ')[0].toLowerCase()
                     }
                     setSelectedImpact={handleSelect}
+                    savable
                   />
                 ))}
               </div>
