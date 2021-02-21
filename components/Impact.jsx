@@ -24,20 +24,20 @@ const Impact = () => {
   return (
     <div className="max-w-screen-xl mx-auto px-8 py-16 xl:px-0">
       <div className="flex flex-col items-center justify-center">
-        <h1 class="text-blue-500 text-4xl font-semibold text-center mb-12">
+        <h1 class="text-blue-500 text-4xl font-bold text-center mb-12">
           Choose Your Impact
         </h1>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 md:gap-16 lg:gap-36">
           {impactData.map((el, idx) => (
             <div
               key={idx}
-              className="bg-white shadow-lg rounded-lg p-12 border"
+              className="group bg-white shadow-lg rounded-lg p-12 border transform hover:scale-105 transition ease-in-out duration-300 hover:bg-blue-500"
             >
               <img class="w-36 mx-auto" src={`/images/${el.img}`} alt="City" />
-              <h2 class="text-blue-500 text-xl font-medium text-center mt-4">
+              <h2 class="text-blue-500 group-hover:text-white text-2xl font-bold text-center mt-4">
                 {el.name}
               </h2>
-              <p className="text-sm text-center leading-5 text-gray-500 mt-2">
+              <p className="text-sm text-center leading-5 text-gray-500 group-hover:text-white mt-2">
                 {el.desc}
               </p>
             </div>
