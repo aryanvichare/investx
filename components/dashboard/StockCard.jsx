@@ -20,7 +20,7 @@ const StockCard = ({ onSelectCard, stock, selectedStock }) => {
         >
           <span className="text-white text-xl font-semibold">{score}</span>
         </div>
-        <div className="w-32 flex flex-col justify-start">
+        <div className="w-28 flex flex-col justify-start">
           <h3 className="text-lg text-gray-700 font-semibold leading-0">
             {abbr}
           </h3>

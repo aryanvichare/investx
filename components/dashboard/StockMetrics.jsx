@@ -13,13 +13,22 @@ const scoreData = [
   { scoreCount: 92, scoreName: 'Long Term Profitability' }
 ];
 
-const StockMetrics = ({selectedStock}) => {
+const StockMetrics = ({selectedStock, stockData}) => {
   useEffect(() => {
     (async () => {
       const data = await axios.get(`api/esg/${selectedStock}`)
       console.log(data);
     })()
   }, [selectedStock]);
+
+  const { esgScore } = stockData;
+
+  if (esgScore) {
+    scoreData[0].scoreCount = esgScore["TR.EnvironmentPillar"].score;
+    scoreData[1].scoreCount = esgScore["TR.TRESGWorkforce"].score;
+    scoreData[2].scoreCount = esgScore["TR.SocialPillar"].score;
+    scoreData[5].scoreCount = esgScore["TR.GovernancePillar"].score;
+  };
 
   return (
     <div className="w-full mt-16">
