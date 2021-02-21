@@ -8,13 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
-    "@alpacahq/alpaca-trade-api": "^1.4.2",
     "axios": "^0.21.1",
+    "date-fns": "^2.17.0",
+    "@alpacahq/alpaca-trade-api": "^1.4.2",
     "firebase": "^8.2.9",
     "js-cookie": "^2.2.1",
     "next": "10.0.7",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "recharts": "^2.0.7",
+    "swr": "^0.4.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.4",
