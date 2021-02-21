@@ -10,10 +10,11 @@ import Navbar from '@/components/dashboard/Navbar';
 
 const lookup = {};
 
-const stockDataSeeded = sp500.map(({ symbol, name, price, change }) => {
-  lookup[symbol] = name;
+const stockDataSeeded = sp500.map(({ symbol, name, price, change, esgScore }) => {
+  lookup[symbol] = {name, esgScore};
+  const weightedScore = esgScore && esgScore["TR.TRESG"]
   return {
-    score: 97,
+    score: weightedScore ? weightedScore["score"]: 50,
     abbr: symbol,
     name,
     price: `$${price}`,
@@ -66,7 +67,7 @@ const Dashboard = () => {
               <div className="w-full grid grid-cols-12 gap-6">
                 <StockChart
                   selectedStock={selectedStock}
-                  stockName={lookup[selectedStock]}
+                  stockName={lookup[selectedStock].name}
                 />
                 <StockList
                   stockDataAll={stockDataSeeded}
@@ -74,10 +75,10 @@ const Dashboard = () => {
                   setSelectedStock={(symbol) => setSelectedStock(symbol)}
                 />
               </div>
-              <StockMetrics selectedStock={selectedStock} />
+              <StockMetrics stockData={lookup[selectedStock]} selectedStock={selectedStock} />
               <StockArticles
                 selectedStock={selectedStock}
-                stockName={lookup[selectedStock]}
+                stockName={lookup[selectedStock].name}
               />
             </div>
           </div>
