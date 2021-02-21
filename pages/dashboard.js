@@ -16,6 +16,7 @@ import NewsCard from '@/components/NewsCard';
 import StockCard from '@/components/StockCard';
 import { useAuth } from '@/lib/auth';
 import { fromUnixTime } from 'date-fns';
+import sp500 from '../utils/sp500.json';
 
 const Dashboard = () => {
   const auth = useAuth();
@@ -85,57 +86,13 @@ const Dashboard = () => {
     { scoreCount: 92, scoreName: 'Environmental Impact' }
   ];
 
-  const stockDataSeeded = [
-    {
-      score: 97,
-      abbr: 'AMC',
-      name: 'AMC Entertainment',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'SNDL',
-      name: 'Sundial Growers Inc.',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'GOOG',
-      name: 'Google Inc.',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'AMAZ',
-      name: 'Amazon.com',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'CSCO',
-      name: 'Cisco Systems',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'FB',
-      name: 'Facebook Inc.',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'TWTR',
-      name: 'Twitter, Inc.',
-      price: '$5.59',
-      df: '+0.49'
-    }
-  ];
+  const stockDataSeeded = sp500.map(({symbol, name}) => ({
+    score: 97,
+    abbr: symbol,
+    name,
+    price: '$5.59',
+    df: '+0.49'
+  }));
 
   const [stockData, setStockData] = useState(stockDataSeeded);
 
@@ -150,6 +107,24 @@ const Dashboard = () => {
 
     fetchNews();
   }, [selectedStock]);
+
+  useEffect(()=> {
+    if (!selectedSymbol) {
+      return;
+    }
+
+    (async () => {
+      const { data } = await axios.get(`/api/chart/${selectedSymbol}`);
+      console.log(data);
+      setChartData(data[selectedSymbol].map(({startEpochTime, openPrice, highPrice, lowPrice, closePrice}) => ({
+        name: fromUnixTime(startEpochTime),
+        uv: lowPrice,
+        pv: highPrice,
+        amt: closePrice
+      })));
+    })();
+
+  }, []);
 
   useEffect(()=> {
     if (!selectedSymbol) {
