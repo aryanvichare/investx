@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebook } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -21,14 +21,32 @@ const Footer = () => {
                 Invest<span className="text-green-400">X</span>
               </h1>
               <div className="flex flex-row space-x-4 mt-4">
-                <div className="w-12 h-12 bg-blue-500 rounded-full flex flex-row justify-center items-center">
-                  <FaFacebook size={24} fill="#fff" />
+                <div className="w-12 h-12 bg-blue-500 rounded-full flex flex-row justify-center items-center cursor-pointer">
+                  <a
+                    href="https://www.facebook.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaFacebook size={24} fill="#fff" />
+                  </a>
                 </div>
-                <div className="w-12 h-12 bg-blue-500 rounded-full flex flex-row justify-center items-center">
-                  <FaFacebook size={24} fill="#fff" />
+                <div className="w-12 h-12 bg-blue-500 rounded-full flex flex-row justify-center items-center cursor-pointer">
+                  <a
+                    href="https://www.instagram.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaInstagram size={24} fill="#fff" />
+                  </a>
                 </div>
-                <div className="w-12 h-12 bg-blue-500 rounded-full flex flex-row justify-center items-center">
-                  <FaFacebook size={24} fill="#fff" />
+                <div className="w-12 h-12 bg-blue-500 rounded-full flex flex-row justify-center items-center cursor-pointer">
+                  <a
+                    href="https://www.twitter.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaTwitter size={24} fill="#fff" />
+                  </a>
                 </div>
               </div>
             </div>
