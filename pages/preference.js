@@ -3,6 +3,8 @@ import ImpactCardPreference from '@/components/ImpactCardPreference';
 import SidePanel from '@/components/SidePanel';
 import { useAuth } from '@/lib/auth';
 import { fetchUserData, updateImpactPreference } from '@/lib/firestore';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoadingDashboard = () => (
   <div className="h-screen">
@@ -65,6 +67,7 @@ const Dashboard = () => {
 
     if (oldImpact !== newImpact) {
       updateImpactPreference(auth?.user?.uid, newImpact);
+      notify();
     }
   };
 
@@ -77,8 +80,21 @@ const Dashboard = () => {
     fetchPreferences();
   }, []);
 
+  const notify = () => toast.info('Preference Successfully Updated!');
+
   return (
     <div className="bg-gray-50 w-full">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="flex flex-row relative flex-no-wrap">
         <SidePanel auth={auth} hScreen />
         {!auth.user ? (
