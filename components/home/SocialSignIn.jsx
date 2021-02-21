@@ -32,37 +32,37 @@ const SocialSignIn = ({ setOpen }) => {
             d="M6 18L18 6M6 6l12 12"
           />
         </svg>
-        <div class="flex flex-col justify-center items-center w-full p-4">
+        <div className="flex flex-col justify-center items-center w-full p-4">
           <div className="flex flex-row items-center space-x-2 pr-1">
             <Image src="/images/logo.png" alt="me" width="50" height="50" />
             <h1 className="lg:ml-2 text-white font-bold text-3xl">
               Invest<span className="text-green-400">X</span>
             </h1>
           </div>
-          <p class="text-center text-md mt-4 text-white">
+          <p className="text-center text-md mt-4 text-white">
             Log in to get access to InvestX's custom dashboard
           </p>
         </div>
-        <div class="mt-4 flex flex-col space-y-4 justify-center">
+        <div className="mt-4 flex flex-col space-y-4 justify-center">
           <button
             onClick={() => auth.signInWithGoogle()}
-            class="bg-white w-full flex flex-row justify-center items-center rounded shadow-sm transition duration-200 ease-in-out transform hover:-translate-y-1"
+            className="bg-white w-full flex flex-row justify-center items-center rounded shadow-sm transition duration-200 ease-in-out transform hover:-translate-y-1"
           >
             <div className="bg-white inline-block p-2 rounded m-1">
               <FcGoogle size={32} />
             </div>
-            <span class="mx-auto pr-8 text-lg text-blue-600 font-semibold">
+            <span className="mx-auto pr-8 text-lg text-blue-600 font-semibold">
               Google
             </span>
           </button>
           <button
             onClick={() => auth.signInWithGithub()}
-            class="bg-gray-900 w-full flex flex-row justify-center items-center rounded shadow-sm transition duration-200 ease-in-out transform hover:-translate-y-1"
+            className="bg-gray-900 w-full flex flex-row justify-center items-center rounded shadow-sm transition duration-200 ease-in-out transform hover:-translate-y-1"
           >
             <div className="bg-transparent inline-block p-2 rounded m-1">
               <FaGithub fill="white" size={32} />
             </div>
-            <span class="mx-auto pr-8 text-lg text-white font-semibold">
+            <span className="mx-auto pr-8 text-lg text-white font-semibold">
               GitHub
             </span>
           </button>

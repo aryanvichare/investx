@@ -9,13 +9,13 @@ import 'react-toastify/dist/ReactToastify.css';
 const LoadingDashboard = () => (
   <div className="h-screen">
     <svg
-      class="animate-spin h-8 w-8 m-4 text-green-500"
+      className="animate-spin h-8 w-8 m-4 text-green-500"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
     >
       <circle
-        class="opacity-25"
+        className="opacity-25"
         cx="12"
         cy="12"
         r="10"
@@ -23,7 +23,7 @@ const LoadingDashboard = () => (
         stroke-width="4"
       ></circle>
       <path
-        class="opacity-75"
+        className="opacity-75"
         fill="currentColor"
         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
       ></path>
@@ -57,12 +57,13 @@ const Dashboard = () => {
   ];
 
   const handleSelect = (e) => {
-    while (!e.target.getAttribute('data-name') && e.parentElement) {
-      e = e.parentElement;
+    let element = e.target;
+    while (!element.getAttribute('data-name') && element.parentElement) {
+      element = element.parentElement;
     }
 
     const oldImpact = selectedImpact;
-    const newImpact = e.target.getAttribute('data-name') ?? selectedImpact;
+    const newImpact = element.getAttribute('data-name') ?? selectedImpact;
     setSelectedImpact(newImpact);
 
     if (oldImpact !== newImpact) {
@@ -102,7 +103,7 @@ const Dashboard = () => {
         ) : (
           <div className="flex-1 overflow-x-scroll py-12">
             <div className="max-w-screen-xl mx-auto px-4 pt-24">
-              <h1 class="text-blue-600 text-left text-3xl font-semibold mb-12">
+              <h1 className="text-blue-600 text-left text-3xl font-semibold mb-12">
                 Preferences
               </h1>
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 md:gap-16 lg:gap-36">
@@ -116,6 +117,7 @@ const Dashboard = () => {
                       selectedImpact === el?.name.split(' ')[0].toLowerCase()
                     }
                     setSelectedImpact={handleSelect}
+                    savable
                   />
                 ))}
               </div>

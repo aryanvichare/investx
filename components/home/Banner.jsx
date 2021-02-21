@@ -15,7 +15,7 @@ const Banner = () => {
           </div>
           <div className="w-full md:w-5/12">
             <img
-              class="w-96 mx-auto pt-16 md:pt-0 text-center"
+              className="w-96 mx-auto pt-16 md:pt-0 text-center"
               src="/images/hands.png"
               alt=""
             />

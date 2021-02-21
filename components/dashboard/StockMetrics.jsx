@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import Score from '@/components/Score';
+import axios from 'axios';
 
 const scoreData = [
   { scoreCount: 97, scoreName: 'Environmental Impact' },
@@ -12,6 +14,13 @@ const scoreData = [
 ];
 
 const StockMetrics = ({selectedStock}) => {
+  useEffect(() => {
+    (async () => {
+      const data = await axios.get(`api/esg/${selectedStock}`)
+      console.log(data);
+    })()
+  }, [selectedStock]);
+
   return (
     <div className="w-full mt-16">
       <div className="flex flex-col lg:flex-row justify-between">
