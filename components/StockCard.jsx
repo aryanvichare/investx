@@ -17,7 +17,7 @@ const StockCard = ({ onSelectCard, stock, selectedStock }) => {
           </span>
         </div>
         <div className="flex flex-col justify-start">
-          <h3 class="text-lg text-gray-700 font-semibold leading-0">
+          <h3 className="text-lg text-gray-700 font-semibold leading-0">
             {stock.abbr}
           </h3>
           <p className="text-xs text-gray-400 -mt-1">{stock.name}</p>

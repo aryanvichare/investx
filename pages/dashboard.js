@@ -275,141 +275,180 @@ const Dashboard = () => {
             </ul>
           </div>
         </div>
-        <div className="flex-1 overflow-x-scroll py-12">
-          <div className="max-w-screen-xl mx-auto px-4 pt-24">
-            <div className="w-full grid grid-cols-12 gap-6">
-              <div className="col-span-12 lg:col-span-8">
-                <h1 className="text-blue-600 text-3xl font-semibold">
-                  Portfolio Summary
-                </h1>
-                <div className="mt-8 flex flex-row justify-start items-end">
-                  <h2 className="text-4xl font-semibold mr-8">
-                    {selectedStock.abbr}
-                  </h2>
-                  <span className="text-lg text-gray-400">
-                    {selectedStock.name}
-                  </span>
-                </div>
-                <div className="mt-8">
-                  <AreaChart
-                    width={850}
-                    height={250}
-                    data={data}
-                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                  >
-                    <defs>
-                      <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                        <stop
-                          offset="5%"
-                          stopColor="#8884d8"
-                          stopOpacity={0.8}
-                        />
-                        <stop
-                          offset="95%"
-                          stopColor="#8884d8"
-                          stopOpacity={0}
-                        />
-                      </linearGradient>
-                      <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                        <stop
-                          offset="5%"
-                          stopColor="#82ca9d"
-                          stopOpacity={0.8}
-                        />
-                        <stop
-                          offset="95%"
-                          stopColor="#82ca9d"
-                          stopOpacity={0}
-                        />
-                      </linearGradient>
-                    </defs>
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
-                    <Area
-                      type="monotone"
-                      dataKey="uv"
-                      stroke="#8884d8"
-                      fillOpacity={1}
-                      fill="url(#colorUv)"
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="pv"
-                      stroke="#82ca9d"
-                      fillOpacity={1}
-                      fill="url(#colorPv)"
-                    />
-                  </AreaChart>
-                </div>
-              </div>
-              <div className="col-span-12 2xl:col-span-4">
-                <div className="2xl:ml-12 h-96 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
-                  <div class="relative px-8 my-4">
-                    <div class="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
-                      <svg
-                        className="w-4 h-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
-                    <input
-                      onChange={filterList}
-                      ref={stockSearcherRef}
-                      id="stock_searcher"
-                      value={search}
-                      class="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
-                      placeholder="Search for stocks..."
-                    />
+
+        {!auth.user ? (
+          <div className="h-screen">
+            <svg
+              class="animate-spin h-8 w-8 m-4 text-green-500"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </div>
+        ) : (
+          <div className="flex-1 overflow-x-scroll py-12">
+            <div className="max-w-screen-xl mx-auto px-4 pt-24">
+              <div className="w-full grid grid-cols-12 gap-6">
+                <div className="col-span-12 lg:col-span-8">
+                  <h1 className="text-blue-600 text-3xl font-semibold">
+                    Portfolio Summary
+                  </h1>
+                  <div className="mt-8 flex flex-row justify-start items-end">
+                    <h2 className="text-4xl font-semibold mr-8">
+                      {selectedStock.abbr}
+                    </h2>
+                    <span className="text-lg text-gray-400">
+                      {selectedStock.name}
+                    </span>
                   </div>
                   <div className="mt-8">
-                    {stockData.map((stock) => (
-                      <StockCard
-                        onSelectCard={onSelectCard}
-                        stock={stock}
-                        selectedStock={selectedStock}
+                    <AreaChart
+                      width={850}
+                      height={250}
+                      data={data}
+                      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                    >
+                      <defs>
+                        <linearGradient
+                          id="colorUv"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#8884d8"
+                            stopOpacity={0.8}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#8884d8"
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                        <linearGradient
+                          id="colorPv"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#82ca9d"
+                            stopOpacity={0.8}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#82ca9d"
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <Tooltip />
+                      <Area
+                        type="monotone"
+                        dataKey="uv"
+                        stroke="#8884d8"
+                        fillOpacity={1}
+                        fill="url(#colorUv)"
                       />
-                    ))}
+                      <Area
+                        type="monotone"
+                        dataKey="pv"
+                        stroke="#82ca9d"
+                        fillOpacity={1}
+                        fill="url(#colorPv)"
+                      />
+                    </AreaChart>
+                  </div>
+                </div>
+                <div className="col-span-12 2xl:col-span-4">
+                  <div className="2xl:ml-12 h-96 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
+                    <div className="relative px-8 my-4">
+                      <div className="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
+                        <svg
+                          className="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        onChange={filterList}
+                        ref={stockSearcherRef}
+                        id="stock_searcher"
+                        value={search}
+                        className="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
+                        placeholder="Search for stocks..."
+                      />
+                    </div>
+                    <div className="mt-8">
+                      {stockData.map((stock, idx) => (
+                        <StockCard
+                          key={idx}
+                          onSelectCard={onSelectCard}
+                          stock={stock}
+                          selectedStock={selectedStock}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="w-full mt-16">
-              <h1 className="text-blue-600 text-3xl font-semibold">
-                Score Metrics
-              </h1>
-              <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-16">
-                {scoreData.map((score, idx) => (
-                  <Score
-                    key={idx}
-                    scoreName={score.scoreName}
-                    scoreCount={score.scoreCount}
-                  />
-                ))}
+              <div className="w-full mt-16">
+                <h1 className="text-blue-600 text-3xl font-semibold">
+                  Score Metrics
+                </h1>
+                <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-16">
+                  {scoreData.map((score, idx) => (
+                    <Score
+                      key={idx}
+                      scoreName={score.scoreName}
+                      scoreCount={score.scoreCount}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="w-full  mt-16">
-              <h1 className="text-blue-600 text-3xl font-semibold">
-                Featured Articles
-              </h1>
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {articles.slice(5, 11).map((article, idx) => (
-                  <NewsCard key={idx} article={article} />
-                ))}
+              <div className="w-full  mt-16">
+                <h1 className="text-blue-600 text-3xl font-semibold">
+                  Featured Articles
+                </h1>
+                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {articles.slice(5, 11).map((article, idx) => (
+                    <NewsCard key={idx} article={article} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
