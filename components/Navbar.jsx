@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import SocialSignIn from './SocialSignIn';
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
   const [show, setShow] = useState(true);
 
   return (
@@ -20,7 +22,10 @@ const Navbar = () => {
                 <a>Home</a>
               </li>
               <li className="text-white cursor-pointer">
-                <a className="hover:text-green-300 transition duration-200 ease-in-out">
+                <a
+                  onClick={() => setOpen(true)}
+                  className="hover:text-green-300 transition duration-200 ease-in-out"
+                >
                   Get Started
                 </a>
               </li>
@@ -99,6 +104,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      {open && <SocialSignIn setOpen={setOpen} />}
     </div>
   );
 };
