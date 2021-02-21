@@ -1,10 +1,12 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const SidePanel = ({ auth }) => {
+  const router = useRouter();
   return (<>
-    <div className="hidden lg:block lg:flex-shrink-0 bg-blue-600 w-48 lg:w-64">
+    <div className="hidden lg:block lg:flex-shrink-0 bg-blue-600 w-48 lg:w-64 cursor-pointer">
       <div className="px-4 py-16">
-        <div className="flex flex-row justify-start items-center lg:pl-4">
+        <div className="flex flex-row justify-start items-center lg:pl-4" onClick={ () => router.push('/') }>
           <Image src="/images/logo.png" alt="me" width="50" height="50" />
           <h1 className="lg:ml-2 text-white font-bold text-3xl">
             Invest<span className="text-green-400">X</span>

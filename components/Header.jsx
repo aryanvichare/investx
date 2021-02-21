@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
-import Image from 'next/image';
 import SocialSignIn from './SocialSignIn';
 
 const Header = () => {
+  const { user } = useAuth();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   return (
     <div className="bg-blue-600">
@@ -22,6 +25,9 @@ const Header = () => {
             </div>
             <button
               onClick={() => {
+                if (user) {
+                  return router.push('/dashboard');
+                }
                 setOpen(true);
                 console.log('activated');
               }}
