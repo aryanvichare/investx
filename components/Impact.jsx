@@ -6,7 +6,7 @@ const Impact = () => {
     {
       name: 'Broad Impact',
       desc:
-        'With this option, you can invest in ETFs that support companies with lower carbon emissions and the funding of green projects',
+        'This option will help you reach your goals while investing in ETFs that meet Environmental, Social, and Governance (ESG) requirements.',
       img: 'city.png'
     },
     {

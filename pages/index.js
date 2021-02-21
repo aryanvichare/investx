@@ -1,17 +1,10 @@
-import { useAuth } from '@/lib/auth';
-import { useStock } from '@/lib/stock';
 import Head from 'next/head';
-import Image from 'next/image';
-import Header from '@/components/Header';
+import Header from '@/components/home/Header';
 import Impact from '@/components/Impact';
-import Banner from '@/components/Banner';
-import Footer from '@/components/Footer';
+import Banner from '@/components/home/Banner';
+import Footer from '@/components/home/Footer';
 
 export default function Home() {
-  const auth = useAuth();
-  const stock = useStock();
-  const { user, email } = auth;
-
   return (
     <div>
       <Head>

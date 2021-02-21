@@ -11,11 +11,50 @@ const SidePanel = ({ auth, hScreen }) => {
         }`}
       >
         <div className="px-4 py-16">
-          <div className="flex flex-row justify-start items-center lg:pl-4">
+          <div
+            className="flex flex-row justify-start items-center lg:pl-4"
+            onClick={() => router.push('/')}
+          >
             <Image src="/images/logo.png" alt="me" width="50" height="50" />
             <h1 className="lg:ml-2 text-white font-bold text-3xl">
               Invest<span className="text-green-400">X</span>
             </h1>
+          </div>
+        </div>
+        <div className="mt-6">
+          <ul className="w-full">
+            <li
+              onClick={() => router.push('/dashboard')}
+              className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4"
+            >
+              Stocks
+            </li>
+            <li className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4">
+              Trends
+            </li>
+            <li
+              onClick={() => router.push('/preference')}
+              className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4"
+            >
+              Preference
+            </li>
+            <li
+              onClick={() => auth.signOut()}
+              className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4"
+            >
+              Logout
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        className={`block lg:hidden lg:flex-shrink-0 bg-blue-600 w-24 ${
+          hScreen && 'h-screen'
+        }`}
+      >
+        <div className="px-4 py-16">
+          <div className="flex flex-row justify-center items-center ">
+            <Image src="/images/logo.png" alt="me" width="50" height="50" />
           </div>
         </div>
         <div className="mt-6">
