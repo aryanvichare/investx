@@ -14,7 +14,8 @@ const Score = ({ scoreCount, scoreName }) => {
     >
       <h3 className="text-6xl text-white mb-2 font-bold">{scoreCount}</h3>
       <p className="text-white text-center text-md">
-        {scoreName.split(' ')[0]} <br /> {scoreName.split(' ')[1]}
+        {scoreName.split(' ')[0]} <br /> {scoreName.split(' ')[1]}{' '}
+        {scoreName.split(' ')[2] ?? ''}
       </p>
     </div>
   );
