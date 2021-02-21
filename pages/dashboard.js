@@ -6,7 +6,8 @@ import NewsCard from '@/components/NewsCard';
 import StockCard from '@/components/StockCard';
 import StockChart from '@/components/StockChart';
 import { useAuth } from '@/lib/auth';
-import { fromUnixTime, formatISO9075 } from 'date-fns';
+import { fromUnixTime, format, formatISO9075 } from 'date-fns';
+import { ExportToCsv } from 'export-to-csv';
 import sp500 from '../utils/sp500.json';
 
 const STUB_CHART = [
@@ -56,13 +57,13 @@ const STUB_CHART = [
 
 const scoreData = [
   { scoreCount: 97, scoreName: 'Environmental Impact' },
-  { scoreCount: 93, scoreName: 'Environmental Impact' },
-  { scoreCount: 50, scoreName: 'Environmental Impact' },
-  { scoreCount: 88, scoreName: 'Environmental Impact' },
-  { scoreCount: 60, scoreName: 'Environmental Impact' },
-  { scoreCount: 93, scoreName: 'Environmental Impact' },
-  { scoreCount: 96, scoreName: 'Environmental Impact' },
-  { scoreCount: 92, scoreName: 'Environmental Impact' }
+  { scoreCount: 93, scoreName: 'Labor Practices' },
+  { scoreCount: 50, scoreName: 'Social Impact' },
+  { scoreCount: 88, scoreName: 'Gender Equality' },
+  { scoreCount: 60, scoreName: 'Pay Equality' },
+  { scoreCount: 93, scoreName: 'Corporate Activity Impact' },
+  { scoreCount: 96, scoreName: 'Short Term Profitability' },
+  { scoreCount: 92, scoreName: 'Long Term Profitability' }
 ];
 
 const lookup = {};
@@ -97,7 +98,6 @@ const Dashboard = () => {
         params: { query: `${lookup[selectedStock]}-Social` }
       });
       setArticles(response.data);
-      console.log(response.data);
     };
 
     fetchNews();
@@ -117,9 +117,7 @@ const Dashboard = () => {
             min = Math.min(min, low);
             max = Math.max(max, high);
             return {
-              date: formatISO9075(fromUnixTime(startEpochTime), {
-                representation: 'date'
-              }),
+              date: format(fromUnixTime(startEpochTime), 'PP'),
               low,
               high,
               close: closePrice,
@@ -153,6 +151,24 @@ const Dashboard = () => {
 
     setSelectedStock(element.getAttribute('data-abbr') ?? selectedStock);
     return false;
+  };
+
+  const handleCSVDownload = () => {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: `InvestX ${selectedStock} Report`,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: false,
+      headers: ['Date', 'Open Price', 'High Price', 'Low Price', 'Close Price']
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(chartData);
   };
 
   return (
@@ -293,13 +309,34 @@ const Dashboard = () => {
                   <h1 className="text-blue-600 text-3xl font-semibold">
                     Portfolio Summary
                   </h1>
-                  <div className="mt-8 flex flex-row justify-start items-end">
-                    <h2 className="text-4xl font-semibold mr-8">
-                      {selectedStock}
-                    </h2>
-                    <span className="text-lg text-gray-400">
-                      {lookup[selectedStock]}
-                    </span>
+                  <div className="flex flex-row justify-between items-end mt-8">
+                    <div className="flex flex-row justify-start items-end">
+                      <h2 className="text-4xl font-semibold mr-8">
+                        {selectedStock}
+                      </h2>
+                      <span className="text-lg text-gray-400">
+                        {lookup[selectedStock]}
+                      </span>
+                    </div>
+                    <button
+                      onClick={handleCSVDownload}
+                      className="bg-gray-200 p-2 rounded-lg"
+                    >
+                      <svg
+                        className="w-6 h-6 text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                        />
+                      </svg>
+                    </button>
                   </div>
                   <div className="mt-8">
                     <StockChart data={chartData} yRange={yRange} />
