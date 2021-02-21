@@ -10,10 +10,11 @@ import Navbar from '@/components/dashboard/Navbar';
 
 const lookup = {};
 
-const stockDataSeeded = sp500.map(({ symbol, name, price, change }) => {
+const stockDataSeeded = sp500.map(({ symbol, name, price, change, esgScore }) => {
   lookup[symbol] = name;
+  const weightedScore = esgScore && esgScore["TR.TRESG"]
   return {
-    score: 97,
+    score: weightedScore ? weightedScore["score"]: 50,
     abbr: symbol,
     name,
     price: `$${price}`,
