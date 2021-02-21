@@ -163,8 +163,19 @@ const Dashboard = () => {
       title: `InvestX ${selectedStock} Report`,
       useTextFile: false,
       useBom: true,
-      useKeysAsHeaders: false,
-      headers: ['Date', 'Open Price', 'High Price', 'Low Price', 'Close Price']
+      useKeysAsHeaders: true
+    };
+
+    const convertKeysToCaps = (obj) => {
+      var output = {};
+      for (let i in obj) {
+        if (Object.prototype.toString.apply(obj[i]) === '[object Object]') {
+          output[i.toUpperCase()] = convertKeysToCaps(obj[i]);
+        } else {
+          output[i.toUpperCase()] = obj[i];
+        }
+      }
+      return output;
     };
 
     const csvExporter = new ExportToCsv(options);
@@ -251,8 +262,8 @@ const Dashboard = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M8.87774 6.37856C8.87774 8.24523 7.33886 9.75821 5.43887 9.75821C3.53999 9.75821 2 8.24523 2 6.37856C2 4.51298 3.53999 3 5.43887 3C7.33886 3 8.87774 4.51298 8.87774 6.37856ZM20.4933 4.89833C21.3244 4.89833 22 5.56203 22 6.37856C22 7.19618 21.3244 7.85989 20.4933 7.85989H13.9178C13.0856 7.85989 12.4101 7.19618 12.4101 6.37856C12.4101 5.56203 13.0856 4.89833 13.9178 4.89833H20.4933ZM3.50777 15.958H10.0833C10.9155 15.958 11.5911 16.6217 11.5911 17.4393C11.5911 18.2558 10.9155 18.9206 10.0833 18.9206H3.50777C2.67555 18.9206 2 18.2558 2 17.4393C2 16.6217 2.67555 15.958 3.50777 15.958ZM18.5611 20.7778C20.4611 20.7778 22 19.2648 22 17.3992C22 15.5325 20.4611 14.0196 18.5611 14.0196C16.6623 14.0196 15.1223 15.5325 15.1223 17.3992C15.1223 19.2648 16.6623 20.7778 18.5611 20.7778Z"
                     fill="white"
                   />
@@ -281,21 +292,21 @@ const Dashboard = () => {
         {!auth.user ? (
           <div className="h-screen">
             <svg
-              class="animate-spin h-8 w-8 m-4 text-green-500"
+              className="animate-spin h-8 w-8 m-4 text-green-500"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
             >
               <circle
-                class="opacity-25"
+                className="opacity-25"
                 cx="12"
                 cy="12"
                 r="10"
                 stroke="currentColor"
-                stroke-width="4"
+                strokeWidth="4"
               ></circle>
               <path
-                class="opacity-75"
+                className="opacity-75"
                 fill="currentColor"
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
@@ -343,7 +354,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="col-span-12 2xl:col-span-4">
-                  <h2 class="text-blue-600 text-center font-semibold text-3xl 2xl:ml-12 mb-4">
+                  <h2 className="text-blue-600 text-center font-semibold text-3xl 2xl:ml-12 mb-4">
                     Top 5 companies based on your preference
                   </h2>
                   <div className="2xl:ml-12 h-120 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
