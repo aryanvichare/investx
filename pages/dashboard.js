@@ -65,9 +65,9 @@ const scoreData = [
   { scoreCount: 92, scoreName: 'Environmental Impact' }
 ];
 
-const lookup = {}
+const lookup = {};
 
-const stockDataSeeded = sp500.map(({symbol, name}) => {
+const stockDataSeeded = sp500.map(({ symbol, name }) => {
   lookup[symbol] = name;
   return {
     score: 97,
@@ -100,24 +100,29 @@ const Dashboard = () => {
     fetchNews();
   }, [selectedStock]);
 
-  useEffect(()=> {
+  useEffect(() => {
     (async () => {
       const { data } = await axios.get(`/api/chart/${selectedStock}`);
       let min = data[selectedStock][0].lowPrice;
       let max = data[selectedStock][0].highPrice;
-      setChartData(data[selectedStock].map(({startEpochTime, openPrice, highPrice, lowPrice, closePrice}) => {
-        min = Math.min(min, lowPrice);
-        max = Math.max(max, highPrice);
-        return {
-          name: formatISO9075(fromUnixTime(startEpochTime), { representation: 'date' }),
-          uv: lowPrice,
-          pv: highPrice,
-          amt: closePrice
-        }
-      }));
-      setYRange([Math.round(min*100)/100, Math.round(max*100)/100]);
+      setChartData(
+        data[selectedStock].map(
+          ({ startEpochTime, openPrice, highPrice, lowPrice, closePrice }) => {
+            min = Math.min(min, lowPrice);
+            max = Math.max(max, highPrice);
+            return {
+              name: formatISO9075(fromUnixTime(startEpochTime), {
+                representation: 'date'
+              }),
+              uv: lowPrice,
+              pv: highPrice,
+              amt: closePrice
+            };
+          }
+        )
+      );
+      setYRange([Math.round(min * 100) / 100, Math.round(max * 100) / 100]);
     })();
-
   }, [selectedStock]);
 
   const filterList = (e) => {
@@ -250,92 +255,118 @@ const Dashboard = () => {
             </ul>
           </div>
         </div>
-        <div className="flex-1 overflow-x-scroll py-12">
-          <div className="max-w-screen-xl mx-auto px-4 pt-24">
-            <div className="w-full grid grid-cols-12 gap-6">
-              <div className="col-span-12 lg:col-span-8">
-                <h1 className="text-blue-600 text-3xl font-semibold">
-                  Portfolio Summary
-                </h1>
-                <div className="mt-8 flex flex-row justify-start items-end">
-                  <h2 className="text-4xl font-semibold mr-8">
-                    {selectedStock}
-                  </h2>
-                  <span className="text-lg text-gray-400">
-                    {lookup[selectedStock]}
-                  </span>
-                </div>
-                <div className="mt-8">
-                  <StockChart data={chartData} yRange={yRange}/>
-                </div>
-              </div>
-              <div className="col-span-12 2xl:col-span-4">
-                <div className="2xl:ml-12 h-96 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
-                  <div className="relative px-8 my-4">
-                    <div className="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
-                      <svg
-                        className="w-4 h-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
-                    <input
-                      onChange={filterList}
-                      ref={stockSearcherRef}
-                      id="stock_searcher"
-                      value={search}
-                      className="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
-                      placeholder="Search for stocks..."
-                    />
+
+        {!auth.user ? (
+          <div className="h-screen">
+            <svg
+              class="animate-spin h-8 w-8 m-4 text-green-500"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </div>
+        ) : (
+          <div className="flex-1 overflow-x-scroll py-12">
+            <div className="max-w-screen-xl mx-auto px-4 pt-24">
+              <div className="w-full grid grid-cols-12 gap-6">
+                <div className="col-span-12 lg:col-span-8">
+                  <h1 className="text-blue-600 text-3xl font-semibold">
+                    Portfolio Summary
+                  </h1>
+                  <div className="mt-8 flex flex-row justify-start items-end">
+                    <h2 className="text-4xl font-semibold mr-8">
+                      {selectedStock.abbr}
+                    </h2>
+                    <span className="text-lg text-gray-400">
+                      {lookup[selectedStock]}
+                    </span>
                   </div>
                   <div className="mt-8">
-                    {stockData.map((stock, idx) => (
-                      <StockCard
-                        key={idx}
-                        onSelectCard={onSelectCard}
-                        stock={stock}
-                        selectedStock={selectedStock}
+                    <StockChart data={chartData} yRange={yRange} />
+                  </div>
+                </div>
+                <div className="col-span-12 2xl:col-span-4">
+                  <div className="2xl:ml-12 h-96 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
+                    <div className="relative px-8 my-4">
+                      <div className="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
+                        <svg
+                          className="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        onChange={filterList}
+                        ref={stockSearcherRef}
+                        id="stock_searcher"
+                        value={search}
+                        className="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
+                        placeholder="Search for stocks..."
                       />
-                    ))}
+                    </div>
+                    <div className="mt-8">
+                      {stockData.map((stock, idx) => (
+                        <StockCard
+                          key={idx}
+                          onSelectCard={onSelectCard}
+                          stock={stock}
+                          selectedStock={selectedStock}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="w-full mt-16">
-              <h1 className="text-blue-600 text-3xl font-semibold">
-                Score Metrics
-              </h1>
-              <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-16">
-                {scoreData.map((score, idx) => (
-                  <Score
-                    key={idx}
-                    scoreName={score.scoreName}
-                    scoreCount={score.scoreCount}
-                  />
-                ))}
+              <div className="w-full mt-16">
+                <h1 className="text-blue-600 text-3xl font-semibold">
+                  Score Metrics
+                </h1>
+                <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-16">
+                  {scoreData.map((score, idx) => (
+                    <Score
+                      key={idx}
+                      scoreName={score.scoreName}
+                      scoreCount={score.scoreCount}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="w-full  mt-16">
-              <h1 className="text-blue-600 text-3xl font-semibold">
-                Featured Articles
-              </h1>
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {articles.slice(5, 11).map((article, idx) => (
-                  <NewsCard key={idx} article={article} />
-                ))}
+              <div className="w-full  mt-16">
+                <h1 className="text-blue-600 text-3xl font-semibold">
+                  Featured Articles
+                </h1>
+                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {articles.slice(5, 11).map((article, idx) => (
+                    <NewsCard key={idx} article={article} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
