@@ -33,7 +33,7 @@ const Trends = () => {
   return (
     <div className="bg-gray-50 w-full">
       <div className="flex flex-row relative flex-no-wrap">
-        <SidePanel auth={auth} hScreen />
+        <SidePanel auth={auth} />
         {!auth.user ? (
           <LoadingDashboard />
         ) : (
