@@ -21,10 +21,10 @@ export default function Home() {
         Sign In With Google
       </button>
       <button
-        onClick={(e) => auth.signInWithTwitter()}
+        onClick={(e) => auth.signInWithGithub()}
         className="block bg-green-600 text-white mt-4"
       >
-        Sign In With Twitter
+        Sign In With GitHub
       </button>
     </div>
   );

@@ -14,8 +14,15 @@ import fetcher from '@/utils/fetcher';
 import axios from 'axios';
 import NewsCard from '@/components/NewsCard';
 import StockCard from '@/components/StockCard';
+import { useAuth } from '@/lib/auth';
 
 const Dashboard = () => {
+  const auth = useAuth();
+
+  const [selectedStock, setSelectedStock] = useState({
+    abbr: 'GOOG',
+    name: 'Google.com'
+  });
   const [search, setSearch] = useState('');
   const [articles, setArticles] = useState([]);
   const stockSearcherRef = useRef();
@@ -133,14 +140,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchNews = async () => {
       const response = await axios.get('/api/news', {
-        params: { query: 'Google' }
+        params: { query: selectedStock.name }
       });
       setArticles(response.data);
       console.log(response.data);
     };
 
     fetchNews();
-  }, []);
+  }, [selectedStock]);
 
   const filterList = (e) => {
     setSearch(e.target.value);
@@ -155,7 +162,10 @@ const Dashboard = () => {
   };
 
   const onSelectCard = (e) => {
-    console.log(e);
+    setSelectedStock({
+      abbr: e.target.getAttribute('data-abbr') ?? selectedStock.abbr,
+      name: e.target.getAttribute('data-name') ?? selectedStock.name
+    });
   };
 
   return (
@@ -181,7 +191,10 @@ const Dashboard = () => {
               <li className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4">
                 Preference
               </li>
-              <li className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4">
+              <li
+                onClick={() => auth.signOut()}
+                className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4"
+              >
                 Logout
               </li>
             </ul>
@@ -270,8 +283,12 @@ const Dashboard = () => {
                   Portfolio Summary
                 </h1>
                 <div className="mt-8 flex flex-row justify-start items-end">
-                  <h2 className="text-4xl font-semibold mr-8">GOOG</h2>
-                  <span className="text-lg text-gray-400">Google Inc.</span>
+                  <h2 className="text-4xl font-semibold mr-8">
+                    {selectedStock.abbr}
+                  </h2>
+                  <span className="text-lg text-gray-400">
+                    {selectedStock.name}
+                  </span>
                 </div>
                 <div className="mt-8">
                   <AreaChart
@@ -357,7 +374,11 @@ const Dashboard = () => {
                   </div>
                   <div className="mt-8">
                     {stockData.map((stock) => (
-                      <StockCard onSelectCard={onSelectCard} stock={stock} />
+                      <StockCard
+                        onSelectCard={onSelectCard}
+                        stock={stock}
+                        selectedStock={selectedStock}
+                      />
                     ))}
                   </div>
                 </div>
