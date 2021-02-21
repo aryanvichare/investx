@@ -67,14 +67,14 @@ const scoreData = [
 
 const lookup = {};
 
-const stockDataSeeded = sp500.map(({ symbol, name }) => {
+const stockDataSeeded = sp500.map(({ symbol, name, price, change }) => {
   lookup[symbol] = name;
   return {
     score: 97,
     abbr: symbol,
     name,
-    price: '$5.59',
-    df: '+0.49'
+    price: `$${price}`,
+    df: (change[0] === '-' || Math.round(parseFloat(change) * 100) === 0) ? change : `+${change}`
   };
 });
 
@@ -105,23 +105,21 @@ const Dashboard = () => {
       const { data } = await axios.get(`/api/chart/${selectedStock}`);
       let min = data[selectedStock][0].lowPrice;
       let max = data[selectedStock][0].highPrice;
-      setChartData(
-        data[selectedStock].map(
-          ({ startEpochTime, openPrice, highPrice, lowPrice, closePrice }) => {
-            min = Math.min(min, lowPrice);
-            max = Math.max(max, highPrice);
-            return {
-              name: formatISO9075(fromUnixTime(startEpochTime), {
-                representation: 'date'
-              }),
-              uv: lowPrice,
-              pv: highPrice,
-              amt: closePrice
-            };
-          }
-        )
-      );
-      setYRange([Math.round(min * 100) / 100, Math.round(max * 100) / 100]);
+      setChartData(data[selectedStock].map(({ startEpochTime, openPrice, highPrice, lowPrice, closePrice }) => {
+        const low = Math.round(lowPrice * 100) / 100;
+        const high = Math.round(highPrice * 100) / 100;
+
+        min = Math.min(min, low);
+        max = Math.max(max, high);
+        return {
+          date: formatISO9075(fromUnixTime(startEpochTime), { representation: 'date' }),
+          low,
+          high,
+          close: closePrice,
+          open: openPrice
+        }
+      }));
+      setYRange([min, max]);
     })();
   }, [selectedStock]);
 
@@ -279,96 +277,96 @@ const Dashboard = () => {
             </svg>
           </div>
         ) : (
-          <div className="flex-1 overflow-x-scroll py-12">
-            <div className="max-w-screen-xl mx-auto px-4 pt-24">
-              <div className="w-full grid grid-cols-12 gap-6">
-                <div className="col-span-12 lg:col-span-8">
-                  <h1 className="text-blue-600 text-3xl font-semibold">
-                    Portfolio Summary
+            <div className="flex-1 overflow-x-scroll py-12">
+              <div className="max-w-screen-xl mx-auto px-4 pt-24">
+                <div className="w-full grid grid-cols-12 gap-6">
+                  <div className="col-span-12 lg:col-span-8">
+                    <h1 className="text-blue-600 text-3xl font-semibold">
+                      Portfolio Summary
                   </h1>
-                  <div className="mt-8 flex flex-row justify-start items-end">
-                    <h2 className="text-4xl font-semibold mr-8">
-                      {selectedStock}
-                    </h2>
-                    <span className="text-lg text-gray-400">
-                      {lookup[selectedStock]}
-                    </span>
-                  </div>
-                  <div className="mt-8">
-                    <StockChart data={chartData} yRange={yRange} />
-                  </div>
-                </div>
-                <div className="col-span-12 2xl:col-span-4">
-                  <h2 class="text-blue-500 font-bold text-3xl 2xl:ml-12 mb-4">
-                    Top 5 companies based on your preference
-                  </h2>
-                  <div className="2xl:ml-12 h-120 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
-                    <div className="relative px-8 my-4">
-                      <div className="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
-                        <svg
-                          className="w-4 h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </div>
-                      <input
-                        onChange={filterList}
-                        ref={stockSearcherRef}
-                        id="stock_searcher"
-                        value={search}
-                        className="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
-                        placeholder="Search for stocks..."
-                      />
+                    <div className="mt-8 flex flex-row justify-start items-end">
+                      <h2 className="text-4xl font-semibold mr-8">
+                        {selectedStock}
+                      </h2>
+                      <span className="text-lg text-gray-400">
+                        {lookup[selectedStock]}
+                      </span>
                     </div>
                     <div className="mt-8">
-                      {stockData.map((stock, idx) => (
-                        <StockCard
-                          key={idx}
-                          onSelectCard={onSelectCard}
-                          stock={stock}
-                          selectedStock={selectedStock}
+                      <StockChart data={chartData} yRange={yRange} />
+                    </div>
+                  </div>
+                  <div className="col-span-12 2xl:col-span-4">
+                    <h2 class="text-blue-500 font-bold text-3xl 2xl:ml-12 mb-4">
+                      Top 5 companies based on your preference
+                  </h2>
+                    <div className="2xl:ml-12 h-120 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
+                      <div className="relative px-8 my-4">
+                        <div className="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
+                          <svg
+                            className="w-4 h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                          </svg>
+                        </div>
+                        <input
+                          onChange={filterList}
+                          ref={stockSearcherRef}
+                          id="stock_searcher"
+                          value={search}
+                          className="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
+                          placeholder="Search for stocks..."
                         />
-                      ))}
+                      </div>
+                      <div className="mt-8">
+                        {stockData.map((stock, idx) => (
+                          <StockCard
+                            key={idx}
+                            onSelectCard={onSelectCard}
+                            stock={stock}
+                            selectedStock={selectedStock}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="w-full mt-16">
-                <h1 className="text-blue-600 text-3xl font-semibold">
-                  Score Metrics
+                <div className="w-full mt-16">
+                  <h1 className="text-blue-600 text-3xl font-semibold">
+                    Score Metrics
                 </h1>
-                <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-16">
-                  {scoreData.map((score, idx) => (
-                    <Score
-                      key={idx}
-                      scoreName={score.scoreName}
-                      scoreCount={score.scoreCount}
-                    />
-                  ))}
+                  <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-16">
+                    {scoreData.map((score, idx) => (
+                      <Score
+                        key={idx}
+                        scoreName={score.scoreName}
+                        scoreCount={score.scoreCount}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div className="w-full  mt-16">
-                <h1 className="text-blue-600 text-3xl font-semibold">
-                  Featured Articles
+                <div className="w-full  mt-16">
+                  <h1 className="text-blue-600 text-3xl font-semibold">
+                    Featured Articles
                 </h1>
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {articles.slice(5, 11).map((article, idx) => (
-                    <NewsCard key={idx} article={article} />
-                  ))}
+                  <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {articles.slice(5, 11).map((article, idx) => (
+                      <NewsCard key={idx} article={article} />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </div>
   );
