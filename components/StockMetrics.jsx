@@ -2,13 +2,13 @@ import Score from '@/components/Score';
 
 const scoreData = [
   { scoreCount: 97, scoreName: 'Environmental Impact' },
-  { scoreCount: 93, scoreName: 'Environmental Impact' },
-  { scoreCount: 50, scoreName: 'Environmental Impact' },
-  { scoreCount: 88, scoreName: 'Environmental Impact' },
-  { scoreCount: 60, scoreName: 'Environmental Impact' },
-  { scoreCount: 93, scoreName: 'Environmental Impact' },
-  { scoreCount: 96, scoreName: 'Environmental Impact' },
-  { scoreCount: 92, scoreName: 'Environmental Impact' }
+  { scoreCount: 93, scoreName: 'Labor Practices' },
+  { scoreCount: 50, scoreName: 'Social Impact' },
+  { scoreCount: 88, scoreName: 'Gender Equality' },
+  { scoreCount: 60, scoreName: 'Pay Equality' },
+  { scoreCount: 93, scoreName: 'Corporate Activity Impact' },
+  { scoreCount: 96, scoreName: 'Short Term Profitability' },
+  { scoreCount: 92, scoreName: 'Long Term Profitability' }
 ];
 
 const StockMetrics = ({selectedStock}) => {
