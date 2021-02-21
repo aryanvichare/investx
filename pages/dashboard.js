@@ -6,6 +6,7 @@ import StockArticles from '@/components/StockArticles';
 import { useAuth } from '@/lib/auth';
 import sp500 from '../utils/sp500.json';
 import SidePanel from '@/components/SidePanel';
+import Navbar from '@/components/dashboard/Navbar';
 
 const lookup = {};
 
@@ -59,7 +60,8 @@ const Dashboard = () => {
         {!auth.user ? (
           <LoadingDashboard />
         ) : (
-          <div className="flex-1 overflow-x-scroll py-12">
+          <div className="flex-1 overflow-x-scroll pb-12">
+            <Navbar />
             <div className="max-w-screen-xl mx-auto px-4 pt-24">
               <div className="w-full grid grid-cols-12 gap-6">
                 <StockChart
