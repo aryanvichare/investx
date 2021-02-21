@@ -102,7 +102,11 @@ const StockArticles = ({ selectedStock, stockName }) => {
     const fetchPreferences = async () => {
       const data = await fetchUserData(auth?.user?.uid);
       const impact = data?.impact;
-      setImpact(impact === 'broad' ? '' : data?.impact.toUpperCase());
+      setImpact(
+        impact === 'broad'
+          ? ''
+          : impact.charAt(0).toUpperCase() + impact.slice(1)
+      );
     };
 
     fetchPreferences();
