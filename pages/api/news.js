@@ -1,12 +1,12 @@
 import axios from 'axios';
 
+const NEWS_BASE_URL = ' https://newsapi.org/v2/everything';
+const NEWS_API_KEY = process.env.NEWSAPI_API_KEY;
+
 export default async (req, res) => {
   try {
     console.log(req.body);
     const { query } = req.query;
-
-    const NEWS_BASE_URL = ' https://newsapi.org/v2/everything';
-    const NEWS_API_KEY = '<api_key>';
 
     const response = await axios.get(NEWS_BASE_URL, {
       params: { q: query, apiKey: NEWS_API_KEY },
