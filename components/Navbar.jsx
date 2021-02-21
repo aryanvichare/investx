@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/lib/auth';
 import SocialSignIn from './SocialSignIn';
 
 const Navbar = () => {
+  const { user } = useAuth();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(true);
 
@@ -21,14 +25,21 @@ const Navbar = () => {
               <li className="text-white cursor-pointer">
                 <a>Home</a>
               </li>
-              <li className="text-white cursor-pointer">
+              {user ? <li className="text-white cursor-pointer">
+                <a
+                  onClick={() => router.push('/dashboard')}
+                  className="hover:text-green-300 transition duration-200 ease-in-out"
+                >
+                  Dashboard
+                </a>
+              </li> : <li className="text-white cursor-pointer">
                 <a
                   onClick={() => setOpen(true)}
                   className="hover:text-green-300 transition duration-200 ease-in-out"
                 >
                   Get Started
                 </a>
-              </li>
+              </li>}
             </ul>
           </div>
         </div>
@@ -48,15 +59,19 @@ const Navbar = () => {
                 className=" py-2 mx-8 border-r bg-white absolute rounded top-0 left-0 right-0 shadow mt-20 md:px-4 md:mt-20 z-20"
               >
                 <li className="flex justify-center cursor-pointer text-gray-800 text-sm leading-3 tracking-normal py-2 hover:text-green-600 focus:text-green-600 focus:outline-none">
-                  <a href="javascript:void(0)">
+                  <a href="_blank">
                     <span className="font-bold text-md">Home</span>
                   </a>
                 </li>
-                <li className="flex justify-center cursor-pointer text-gray-800 text-sm leading-3 tracking-normal py-2 hover:text-green-600 focus:text-green-600 focus:outline-none">
-                  <a href="javascript:void(0)">
+                {user ? <li className="flex justify-center cursor-pointer text-gray-800 text-sm leading-3 tracking-normal py-2 hover:text-green-600 focus:text-green-600 focus:outline-none">
+                  <a href="_blank" onClick={() => router.push('/dashboard')}>
+                    <span className="font-bold text-md">Dashboard</span>
+                  </a>
+                </li> : <li className="flex justify-center cursor-pointer text-gray-800 text-sm leading-3 tracking-normal py-2 hover:text-green-600 focus:text-green-600 focus:outline-none">
+                  <a href="_blank">
                     <span className="font-bold text-md">Get Started</span>
                   </a>
-                </li>
+                </li>}
               </ul>
             )}
             <div className="xl:hidden " onClick={() => setShow(!show)}>
@@ -79,7 +94,7 @@ const Navbar = () => {
                   <line x1={6} y1={6} x2={18} y2={18} />
                 </svg>
               ) : (
-                <div className=" close-m-menu" onclick="MenuHandler(false)">
+                <div className=" close-m-menu" onClick="MenuHandler(false)">
                   <svg
                     aria-haspopup="true"
                     aria-label="Main Menu"
