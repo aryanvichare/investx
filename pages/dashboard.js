@@ -88,17 +88,17 @@ const Dashboard = () => {
   const auth = useAuth();
   const stockSearcherRef = useRef();
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      const response = await axios.get('/api/news', {
-        params: { query: lookup[selectedStock] }
-      });
-      setArticles(response.data);
-      console.log(response.data);
-    };
+  // useEffect(() => {
+  //   const fetchNews = async () => {
+  //     const response = await axios.get('/api/news', {
+  //       params: { query: lookup[selectedStock] }
+  //     });
+  //     setArticles(response.data);
+  //     console.log(response.data);
+  //   };
 
-    fetchNews();
-  }, [selectedStock]);
+  //   fetchNews();
+  // }, [selectedStock]);
 
   useEffect(() => {
     (async () => {
@@ -223,16 +223,15 @@ const Dashboard = () => {
               <li className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium flex justify-center">
                 <svg
                   className="w-8 h-8 text-center"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.87774 6.37856C8.87774 8.24523 7.33886 9.75821 5.43887 9.75821C3.53999 9.75821 2 8.24523 2 6.37856C2 4.51298 3.53999 3 5.43887 3C7.33886 3 8.87774 4.51298 8.87774 6.37856ZM20.4933 4.89833C21.3244 4.89833 22 5.56203 22 6.37856C22 7.19618 21.3244 7.85989 20.4933 7.85989H13.9178C13.0856 7.85989 12.4101 7.19618 12.4101 6.37856C12.4101 5.56203 13.0856 4.89833 13.9178 4.89833H20.4933ZM3.50777 15.958H10.0833C10.9155 15.958 11.5911 16.6217 11.5911 17.4393C11.5911 18.2558 10.9155 18.9206 10.0833 18.9206H3.50777C2.67555 18.9206 2 18.2558 2 17.4393C2 16.6217 2.67555 15.958 3.50777 15.958ZM18.5611 20.7778C20.4611 20.7778 22 19.2648 22 17.3992C22 15.5325 20.4611 14.0196 18.5611 14.0196C16.6623 14.0196 15.1223 15.5325 15.1223 17.3992C15.1223 19.2648 16.6623 20.7778 18.5611 20.7778Z"
+                    fill="white"
                   />
                 </svg>
               </li>
@@ -289,7 +288,7 @@ const Dashboard = () => {
                   </h1>
                   <div className="mt-8 flex flex-row justify-start items-end">
                     <h2 className="text-4xl font-semibold mr-8">
-                      {selectedStock.abbr}
+                      {selectedStock}
                     </h2>
                     <span className="text-lg text-gray-400">
                       {lookup[selectedStock]}
@@ -300,7 +299,10 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="col-span-12 2xl:col-span-4">
-                  <div className="2xl:ml-12 h-96 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
+                  <h2 class="text-blue-500 font-bold text-3xl 2xl:ml-12 mb-4">
+                    Top 5 companies based on your preference
+                  </h2>
+                  <div className="2xl:ml-12 h-120 bg-white shadow-lg rounded-lg border-gray-200 border-4 overflow-y-scroll">
                     <div className="relative px-8 my-4">
                       <div className="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
                         <svg

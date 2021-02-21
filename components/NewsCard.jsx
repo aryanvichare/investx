@@ -4,7 +4,11 @@ import { format, parseISO } from 'date-fns';
 const NewsCard = ({ article }) => {
   return (
     <div className="w-full relative rounded shadow bg-white dark:bg-gray-800">
-      <img src={article.urlToImage} className="w-full" alt={article.title} />
+      <img
+        src={article.urlToImage}
+        className="w-full h-72 object-cover"
+        alt={article.title}
+      />
       <div className="py-4 px-6">
         <p className="sm:text-lg text-sm text-gray-500">
           {format(
