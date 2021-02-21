@@ -1,6 +1,7 @@
 
 import { useState, useRef } from 'react';
-import StockCard from '@/components/StockCard';
+import StockCard from '@/components/dashboard/StockCard';
+
 const StockList = ({ stockDataAll, selectedStock, setSelectedStock }) => {
   const [search, setSearch] = useState('');
   const [stockData, setStockData] = useState(stockDataAll);

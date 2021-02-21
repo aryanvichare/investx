@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import StockChart from '@/components/StockChart';
-import StockList from '@/components/StockList';
-import StockMetrics from '@/components/StockMetrics';
+import StockChart from '@/components/dashboard/StockChart';
+import StockList from '@/components/dashboard/StockList';
+import StockMetrics from '@/components/dashboard/StockMetrics';
 import StockArticles from '@/components/StockArticles';
 import { useAuth } from '@/lib/auth';
 import sp500 from '../utils/sp500.json';

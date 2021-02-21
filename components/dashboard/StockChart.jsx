@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fromUnixTime, format, formatISO9075 } from 'date-fns';
+import { fromUnixTime, format } from 'date-fns';
 import { ExportToCsv } from 'export-to-csv';
 import axios from 'axios';
 import {
@@ -74,9 +74,7 @@ const StockChart = ({ selectedStock, stockName }) => {
             min = Math.min(min, low);
             max = Math.max(max, high);
             return {
-              date: formatISO9075(fromUnixTime(startEpochTime), {
-                representation: 'date'
-              }),
+              date: format(fromUnixTime(startEpochTime), 'PP'),
               low,
               high,
               close: closePrice,
