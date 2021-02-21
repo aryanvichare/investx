@@ -12,7 +12,7 @@ const SidePanel = ({ auth, hScreen }) => {
       >
         <div className="px-4 py-16">
           <div
-            className="flex flex-row justify-start items-center lg:pl-4"
+            className="flex flex-row justify-start items-center lg:pl-4 cursor-pointer"
             onClick={() => router.push('/')}
           >
             <Image src="/images/logo.png" alt="me" width="50" height="50" />
