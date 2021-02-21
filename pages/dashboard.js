@@ -88,17 +88,17 @@ const Dashboard = () => {
   const auth = useAuth();
   const stockSearcherRef = useRef();
 
-  // useEffect(() => {
-  //   const fetchNews = async () => {
-  //     const response = await axios.get('/api/news', {
-  //       params: { query: lookup[selectedStock] }
-  //     });
-  //     setArticles(response.data);
-  //     console.log(response.data);
-  //   };
+  useEffect(() => {
+    const fetchNews = async () => {
+      const response = await axios.get('/api/news', {
+        params: { query: `${lookup[selectedStock]}-Social` }
+      });
+      setArticles(response.data);
+      console.log(response.data);
+    };
 
-  //   fetchNews();
-  // }, [selectedStock]);
+    fetchNews();
+  }, [selectedStock]);
 
   useEffect(() => {
     (async () => {
@@ -361,7 +361,7 @@ const Dashboard = () => {
                   Featured Articles
                 </h1>
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {articles.slice(5, 11).map((article, idx) => (
+                  {articles.map((article, idx) => (
                     <NewsCard key={idx} article={article} />
                   ))}
                 </div>
