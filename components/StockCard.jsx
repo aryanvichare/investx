@@ -1,13 +1,16 @@
 import React from 'react';
 
 const StockCard = ({ onSelectCard, stock, selectedStock }) => {
+  if (!stock || !selectedStock) {
+    return null;
+  }
   return (
     <div
       onClick={onSelectCard}
       data-name={stock.name}
       data-abbr={stock.abbr}
-      className={`w-full flex flex-row justify-between items-center border-gray-100 border-t-2 border-b-2 p-4 ${
-        selectedStock.abbr === stock.abbr && 'bg-blue-200'
+      className={`w-full flex flex-row justify-between items-center border-gray-100 border-t-2 border-b-2 p-4 cursor-pointer ${
+        selectedStock === stock.abbr && 'bg-blue-200'
       }`}
     >
       <div className="flex flex-row items-center space-x-4">

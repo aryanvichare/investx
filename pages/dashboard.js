@@ -1,152 +1,128 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import {
-  AreaChart,
-  Area,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip
-} from 'recharts';
 import Score from '@/components/Score';
-import useSWR from 'swr';
-import fetcher from '@/utils/fetcher';
 import axios from 'axios';
 import NewsCard from '@/components/NewsCard';
 import StockCard from '@/components/StockCard';
+import StockChart from '@/components/StockChart';
 import { useAuth } from '@/lib/auth';
+import { fromUnixTime, formatISO9075 } from 'date-fns';
+import sp500 from '../utils/sp500.json';
+
+const STUB_CHART = [
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+    amt: 2000
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+    amt: 2181
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+    amt: 2500
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+    amt: 2100
+  }
+];
+
+const scoreData = [
+  { scoreCount: 97, scoreName: 'Environmental Impact' },
+  { scoreCount: 93, scoreName: 'Environmental Impact' },
+  { scoreCount: 91, scoreName: 'Environmental Impact' },
+  { scoreCount: 88, scoreName: 'Environmental Impact' },
+  { scoreCount: 99, scoreName: 'Environmental Impact' },
+  { scoreCount: 93, scoreName: 'Environmental Impact' },
+  { scoreCount: 96, scoreName: 'Environmental Impact' },
+  { scoreCount: 92, scoreName: 'Environmental Impact' }
+];
+
+const lookup = {};
+
+const stockDataSeeded = sp500.map(({ symbol, name }) => {
+  lookup[symbol] = name;
+  return {
+    score: 97,
+    abbr: symbol,
+    name,
+    price: '$5.59',
+    df: '+0.49'
+  };
+});
 
 const Dashboard = () => {
-  const auth = useAuth();
-
-  const [selectedStock, setSelectedStock] = useState({
-    abbr: 'GOOG',
-    name: 'Google.com'
-  });
+  const [selectedStock, setSelectedStock] = useState('GOOG');
   const [search, setSearch] = useState('');
   const [articles, setArticles] = useState([]);
-  const stockSearcherRef = useRef();
-
-  const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100
-    }
-  ];
-
-  const scoreData = [
-    { scoreCount: 97, scoreName: 'Environmental Impact' },
-    { scoreCount: 93, scoreName: 'Environmental Impact' },
-    { scoreCount: 91, scoreName: 'Environmental Impact' },
-    { scoreCount: 88, scoreName: 'Environmental Impact' },
-    { scoreCount: 99, scoreName: 'Environmental Impact' },
-    { scoreCount: 93, scoreName: 'Environmental Impact' },
-    { scoreCount: 96, scoreName: 'Environmental Impact' },
-    { scoreCount: 92, scoreName: 'Environmental Impact' }
-  ];
-
-  const stockDataSeeded = [
-    {
-      score: 97,
-      abbr: 'AMC',
-      name: 'AMC Entertainment',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'SNDL',
-      name: 'Sundial Growers Inc.',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'GOOG',
-      name: 'Google Inc.',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'AMAZ',
-      name: 'Amazon.com',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'CSCO',
-      name: 'Cisco Systems',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'FB',
-      name: 'Facebook Inc.',
-      price: '$5.59',
-      df: '+0.49'
-    },
-    {
-      score: 97,
-      abbr: 'TWTR',
-      name: 'Twitter, Inc.',
-      price: '$5.59',
-      df: '+0.49'
-    }
-  ];
-
+  const [chartData, setChartData] = useState(STUB_CHART);
   const [stockData, setStockData] = useState(stockDataSeeded);
+  const [yRange, setYRange] = useState(null);
+  const auth = useAuth();
+  const stockSearcherRef = useRef();
 
   useEffect(() => {
     const fetchNews = async () => {
       const response = await axios.get('/api/news', {
-        params: { query: selectedStock.name }
+        params: { query: lookup[selectedStock] }
       });
       setArticles(response.data);
       console.log(response.data);
     };
 
     fetchNews();
+  }, [selectedStock]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(`/api/chart/${selectedStock}`);
+      let min = data[selectedStock][0].lowPrice;
+      let max = data[selectedStock][0].highPrice;
+      setChartData(
+        data[selectedStock].map(
+          ({ startEpochTime, openPrice, highPrice, lowPrice, closePrice }) => {
+            min = Math.min(min, lowPrice);
+            max = Math.max(max, highPrice);
+            return {
+              name: formatISO9075(fromUnixTime(startEpochTime), {
+                representation: 'date'
+              }),
+              uv: lowPrice,
+              pv: highPrice,
+              amt: closePrice
+            };
+          }
+        )
+      );
+      setYRange([Math.round(min * 100) / 100, Math.round(max * 100) / 100]);
+    })();
   }, [selectedStock]);
 
   const filterList = (e) => {
@@ -162,10 +138,14 @@ const Dashboard = () => {
   };
 
   const onSelectCard = (e) => {
-    setSelectedStock({
-      abbr: e.target.getAttribute('data-abbr') ?? selectedStock.abbr,
-      name: e.target.getAttribute('data-name') ?? selectedStock.name
-    });
+    let element = e.target;
+
+    while (!element.getAttribute('data-abbr') && element.parentElement) {
+      element = element.parentElement;
+    }
+
+    setSelectedStock(element.getAttribute('data-abbr') ?? selectedStock);
+    return false;
   };
 
   return (
@@ -312,73 +292,11 @@ const Dashboard = () => {
                       {selectedStock.abbr}
                     </h2>
                     <span className="text-lg text-gray-400">
-                      {selectedStock.name}
+                      {lookup[selectedStock]}
                     </span>
                   </div>
                   <div className="mt-8">
-                    <AreaChart
-                      width={850}
-                      height={250}
-                      data={data}
-                      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                    >
-                      <defs>
-                        <linearGradient
-                          id="colorUv"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#8884d8"
-                            stopOpacity={0.8}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#8884d8"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                        <linearGradient
-                          id="colorPv"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#82ca9d"
-                            stopOpacity={0.8}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#82ca9d"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                      </defs>
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <Tooltip />
-                      <Area
-                        type="monotone"
-                        dataKey="uv"
-                        stroke="#8884d8"
-                        fillOpacity={1}
-                        fill="url(#colorUv)"
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="pv"
-                        stroke="#82ca9d"
-                        fillOpacity={1}
-                        fill="url(#colorPv)"
-                      />
-                    </AreaChart>
+                    <StockChart data={chartData} yRange={yRange} />
                   </div>
                 </div>
                 <div className="col-span-12 2xl:col-span-4">
