@@ -8,7 +8,7 @@ const alpaca = new Alpaca({
   usePolygon: false
 })
 
-const TIMEFRAME = '15Min';
+const TIMEFRAME = 'day';
 
 export default async (req, res) => {
   const { query: { symbol } } = req;

@@ -7,12 +7,12 @@ import {
   Tooltip
 } from 'recharts';
 
-const StockChart = ({data}) => {
+const StockChart = ({data, yRange}) => {
   return (<AreaChart
     width={850}
     height={250}
     data={data}
-    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+    margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
   >
     <defs>
       <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -41,7 +41,7 @@ const StockChart = ({data}) => {
       </linearGradient>
     </defs>
     <XAxis dataKey="name" />
-    <YAxis />
+    <YAxis type="number" domain={yRange}/>
     <CartesianGrid strokeDasharray="3 3" />
     <Tooltip />
     <Area

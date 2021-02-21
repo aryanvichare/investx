@@ -9,7 +9,7 @@ const StockCard = ({ onSelectCard, stock, selectedStock }) => {
       onClick={onSelectCard}
       data-name={stock.name}
       data-abbr={stock.abbr}
-      className={`w-full flex flex-row justify-between items-center border-gray-100 border-t-2 border-b-2 p-4 ${
+      className={`w-full flex flex-row justify-between items-center border-gray-100 border-t-2 border-b-2 p-4 cursor-pointer ${
         selectedStock === stock.abbr && 'bg-blue-200'
       }`}
     >

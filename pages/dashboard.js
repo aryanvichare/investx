@@ -6,7 +6,7 @@ import NewsCard from '@/components/NewsCard';
 import StockCard from '@/components/StockCard';
 import StockChart from '@/components/StockChart';
 import { useAuth } from '@/lib/auth';
-import { fromUnixTime } from 'date-fns';
+import { fromUnixTime, formatISO9075 } from 'date-fns';
 import sp500 from '../utils/sp500.json';
 
 const STUB_CHART = [
@@ -84,6 +84,7 @@ const Dashboard = () => {
   const [articles, setArticles] = useState([]);
   const [chartData, setChartData] = useState(STUB_CHART);
   const [stockData, setStockData] = useState(stockDataSeeded);
+  const [yRange, setYRange] = useState(null);
   const auth = useAuth();
   const stockSearcherRef = useRef();
 
@@ -102,13 +103,19 @@ const Dashboard = () => {
   useEffect(()=> {
     (async () => {
       const { data } = await axios.get(`/api/chart/${selectedStock}`);
-      console.log(data);
-      setChartData(data[selectedStock].map(({startEpochTime, openPrice, highPrice, lowPrice, closePrice}) => ({
-        name: fromUnixTime(startEpochTime),
-        uv: lowPrice,
-        pv: highPrice,
-        amt: closePrice
-      })));
+      let min = data[selectedStock][0].lowPrice;
+      let max = data[selectedStock][0].highPrice;
+      setChartData(data[selectedStock].map(({startEpochTime, openPrice, highPrice, lowPrice, closePrice}) => {
+        min = Math.min(min, lowPrice);
+        max = Math.max(max, highPrice);
+        return {
+          name: formatISO9075(fromUnixTime(startEpochTime), { representation: 'date' }),
+          uv: lowPrice,
+          pv: highPrice,
+          amt: closePrice
+        }
+      }));
+      setYRange([Math.round(min*100)/100, Math.round(max*100)/100]);
     })();
 
   }, [selectedStock]);
@@ -126,7 +133,14 @@ const Dashboard = () => {
   };
 
   const onSelectCard = (e) => {
-    setSelectedStock(e.target.getAttribute('data-abbr') ?? selectedStock);
+    let element = e.target;
+
+    while (!element.getAttribute('data-abbr') && element.parentElement) {
+      element = element.parentElement;
+    }
+
+    setSelectedStock(element.getAttribute('data-abbr') ?? selectedStock);
+    return false;
   };
 
   return (
@@ -252,7 +266,7 @@ const Dashboard = () => {
                   </span>
                 </div>
                 <div className="mt-8">
-                  <StockChart data={chartData}/>
+                  <StockChart data={chartData} yRange={yRange}/>
                 </div>
               </div>
               <div className="col-span-12 2xl:col-span-4">
