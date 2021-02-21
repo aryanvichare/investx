@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Score from '@/components/Score';
 import axios from 'axios';
 
-const scoreData = [
+const baseData = [
   { scoreCount: 97, scoreName: 'Environmental Impact' },
   { scoreCount: 93, scoreName: 'Labor Practices' },
   { scoreCount: 50, scoreName: 'Social Impact' },
@@ -14,10 +14,13 @@ const scoreData = [
 ];
 
 const StockMetrics = ({selectedStock, stockData}) => {
+  const [scoreData, setScoreData] = useState(baseData);
   useEffect(() => {
     (async () => {
-      const data = await axios.get(`api/esg/${selectedStock}`)
-      console.log(data);
+      const resp = await axios.get(`api/esg/${selectedStock}`)
+      console.log(resp.data);
+      const last = resp.data.ratios[0];
+      setScoreData([...baseData.slice(0, 6), {scoreCount: Math.round((last.quickRatio + last.cashRatio)*50), scoreName: 'Short Term Profitability'}, baseData[7]]);
     })()
   }, [selectedStock]);
 
