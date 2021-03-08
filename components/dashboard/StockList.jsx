@@ -48,9 +48,9 @@ const StockList = ({ stockDataAll, selectedStock, setSelectedStock }) => {
       <h2 className="text-blue-600 text-center font-normal text-lg 2xl:ml-12 mb-4">
         Top Companies in <span className="font-bold">"{impact} Impact"</span>
       </h2>
-      <div className="2xl:ml-12 h-120 bg-white shadow-lg rounded-lg border-gray-200 border-4">
+      <div className="2xl:ml-12 h-120 bg-white dark:bg-gray-900 shadow-lg rounded-lg border-gray-200 dark:border-cyan-300  border-4">
         <div className="relative px-8 my-4">
-          <div className="absolute text-gray-600 flex items-center pl-4 h-full cursor-pointer">
+          <div className="absolute text-gray-600 dark:text-gray-300 flex items-center pl-4 h-full cursor-pointer">
             <svg
               className="w-4 h-4"
               xmlns="http://www.w3.org/2000/svg"
@@ -71,11 +71,11 @@ const StockList = ({ stockDataAll, selectedStock, setSelectedStock }) => {
             ref={stockSearcherRef}
             id="stock_searcher"
             value={search}
-            className="text-gray-600 focus:outline-none focus:border bg-gray-50 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
+            className="text-gray-600 dark:text-white focus:outline-none focus:border bg-gray-50 dark:bg-gray-800 font-normal w-full h-10 flex items-center pl-12 text-sm border rounded-lg"
             placeholder="Search for stocks..."
           />
         </div>
-        <div className="mt-8 pb-4 relative h-96">
+        <div className="mt-8 relative h-96">
           <div className="mt-8 max-h-full overflow-y-scroll">
             {stockData.map((stock, idx) => (
               <StockCard

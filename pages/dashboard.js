@@ -10,20 +10,22 @@ import Navbar from '@/components/dashboard/Navbar';
 
 const lookup = {};
 
-const stockDataSeeded = sp500.map(({ symbol, name, price, change, esgScore }) => {
-  lookup[symbol] = {name, esgScore};
-  const weightedScore = esgScore && esgScore["TR.TRESG"]
-  return {
-    score: weightedScore ? weightedScore["score"]: 50,
-    abbr: symbol,
-    name,
-    price: `$${price}`,
-    df:
-      change[0] === '-' || Math.round(parseFloat(change) * 100) === 0
-        ? change
-        : `+${change}`
-  };
-});
+const stockDataSeeded = sp500.map(
+  ({ symbol, name, price, change, esgScore }) => {
+    lookup[symbol] = { name, esgScore };
+    const weightedScore = esgScore && esgScore['TR.TRESG'];
+    return {
+      score: weightedScore ? weightedScore['score'] : 50,
+      abbr: symbol,
+      name,
+      price: `$${price}`,
+      df:
+        change[0] === '-' || Math.round(parseFloat(change) * 100) === 0
+          ? change
+          : `+${change}`
+    };
+  }
+);
 
 const LoadingDashboard = () => (
   <div className="h-screen">
@@ -55,7 +57,7 @@ const Dashboard = () => {
   const auth = useAuth();
 
   return (
-    <div className="bg-gray-50 w-full">
+    <div className="bg-gray-50 dark:bg-gray-900 w-full">
       <div className="flex flex-row relative flex-no-wrap">
         <SidePanel auth={auth} />
         {!auth.user ? (
@@ -75,7 +77,10 @@ const Dashboard = () => {
                   setSelectedStock={(symbol) => setSelectedStock(symbol)}
                 />
               </div>
-              <StockMetrics stockData={lookup[selectedStock]} selectedStock={selectedStock} />
+              <StockMetrics
+                stockData={lookup[selectedStock]}
+                selectedStock={selectedStock}
+              />
               <StockArticles
                 selectedStock={selectedStock}
                 stockName={lookup[selectedStock].name}

@@ -1,6 +1,7 @@
 import SidePanel from '@/components/SidePanel';
 import { useAuth } from '@/lib/auth';
 import StockArticles from '@/components/StockArticles';
+import Navbar from '@/components/dashboard/Navbar';
 
 const LoadingDashboard = () => (
   <div className="h-screen">
@@ -37,7 +38,8 @@ const Trends = () => {
         {!auth.user ? (
           <LoadingDashboard />
         ) : (
-          <div className="flex-1 overflow-x-scroll py-12">
+          <div className="flex-1 overflow-x-scroll py-12 dark:bg-gray-900">
+            <Navbar />
             <div className="max-w-screen-xl mx-auto px-4 pt-24">
               <h1 className="text-blue-600 text-left text-3xl font-semibold mb-12">
                 Trends

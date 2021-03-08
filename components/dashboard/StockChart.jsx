@@ -116,25 +116,26 @@ const StockChart = ({ selectedStock, stockName }) => {
     csvExporter.generateCsv(chartData);
   };
 
-  return (<div className="col-span-12 lg:col-span-8">
+  return (
+    <div className="col-span-12 lg:col-span-8">
       <h1 className="text-blue-600 text-3xl font-semibold">
         Portfolio Summary
-                    </h1>
+      </h1>
       <div className="flex flex-row justify-between items-end mt-8">
         <div className="flex flex-row justify-start items-end">
-          <h2 className="text-4xl font-semibold mr-8">
+          <h2 className="text-4xl font-semibold mr-8 dark:text-white">
             {selectedStock}
           </h2>
-          <span className="text-lg text-gray-400">
+          <span className="text-lg text-gray-400 dark:text-white">
             {stockName}
           </span>
         </div>
         <button
           onClick={handleCSVDownload}
-          className="bg-gray-200 p-2 rounded-lg"
+          className="bg-gray-200 dark:bg-gray-800 p-2 rounded-lg"
         >
           <svg
-            className="w-6 h-6 text-gray-500"
+            className="w-6 h-6 text-gray-500 dark:text-gray-200"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -186,7 +187,8 @@ const StockChart = ({ selectedStock, stockName }) => {
           />
         </AreaChart>
       </div>
-    </div>);
+    </div>
+  );
 };
 
 export default StockChart;

@@ -10,21 +10,21 @@ const NewsCard = ({ article }) => {
         alt={article.title}
       />
       <div className="py-4 px-6">
-        <p className="sm:text-lg text-sm text-gray-500">
+        <p className="sm:text-lg text-sm text-gray-500 dark:text-gray-200">
           {format(
             parseISO(new Date(article.publishedAt).toISOString()),
             'PPPP'
           )}
         </p>
-        <p className="am:text-2xl text-lg font-bold pt-4 text-gray-800">
+        <p className="am:text-2xl text-lg font-bold pt-4 text-gray-800 dark:text-white">
           {article.title}
         </p>
-        <p className="sm:text-lg text-sm leading-5 text-gray-500 pt-3">
+        <p className="sm:text-lg text-sm leading-5 text-gray-500 dark:text-white pt-3">
           {article.description}
         </p>
         <div className="mt-4 flex flex-row justify-start items-center space-x-1">
           <svg
-            className="w-4 h-4 text-indigo-700"
+            className="w-4 h-4 text-indigo-700 dark:text-indigo-400"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -35,7 +35,7 @@ const NewsCard = ({ article }) => {
           <a
             href={article.url}
             target="_blank"
-            className="text-sm leading-4 text-indigo-700"
+            className="text-sm leading-4 text-indigo-700 dark:text-indigo-400"
           >
             Learn More
           </a>

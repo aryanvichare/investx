@@ -13,30 +13,28 @@ const scoreData = [
   { scoreCount: 92, scoreName: 'Long Term Profitability' }
 ];
 
-const StockMetrics = ({selectedStock, stockData}) => {
+const StockMetrics = ({ selectedStock, stockData }) => {
   useEffect(() => {
     (async () => {
-      const data = await axios.get(`api/esg/${selectedStock}`)
+      const data = await axios.get(`api/esg/${selectedStock}`);
       console.log(data);
-    })()
+    })();
   }, [selectedStock]);
 
   const { esgScore } = stockData;
 
   if (esgScore) {
-    scoreData[0].scoreCount = esgScore["TR.EnvironmentPillar"].score;
-    scoreData[1].scoreCount = esgScore["TR.TRESGWorkforce"].score;
-    scoreData[2].scoreCount = esgScore["TR.SocialPillar"].score;
-    scoreData[5].scoreCount = esgScore["TR.GovernancePillar"].score;
-  };
+    scoreData[0].scoreCount = esgScore['TR.EnvironmentPillar'].score;
+    scoreData[1].scoreCount = esgScore['TR.TRESGWorkforce'].score;
+    scoreData[2].scoreCount = esgScore['TR.SocialPillar'].score;
+    scoreData[5].scoreCount = esgScore['TR.GovernancePillar'].score;
+  }
 
   return (
     <div className="w-full mt-16">
       <div className="flex flex-col lg:flex-row justify-between">
-        <h1 className="text-blue-600 text-3xl font-semibold">
-          Score Metrics
-      </h1>
-        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 mt-4 lg:mt-0">
+        <h1 className="text-blue-600 text-3xl font-semibold">Score Metrics</h1>
+        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 mt-4 lg:mt-0 dark:text-white">
           <div className="flex flex-row items-center space-x-1">
             <div className="w-4 h-4 bg-blue-500 rounded-full" />
             <div>
@@ -69,7 +67,8 @@ const StockMetrics = ({selectedStock, stockData}) => {
           />
         ))}
       </div>
-    </div>);
+    </div>
+  );
 };
 
 export default StockMetrics;

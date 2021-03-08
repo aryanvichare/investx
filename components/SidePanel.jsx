@@ -31,7 +31,8 @@ const SidePanel = ({ auth, hScreen }) => {
             </li>
             <li
               onClick={() => router.push('/trends')}
-              className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4">
+              className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium pr-4"
+            >
               Trends
             </li>
             <li
@@ -80,9 +81,10 @@ const SidePanel = ({ auth, hScreen }) => {
                 />
               </svg>
             </li>
-            <li 
+            <li
               onClick={() => router.push('/trends')}
-              className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium flex justify-center">
+              className="hover:bg-blue-700 py-6 text-center cursor-pointer text-white text-lg font-medium flex justify-center"
+            >
               <svg
                 className="w-8 h-8 text-center"
                 xmlns="http://www.w3.org/2000/svg"
